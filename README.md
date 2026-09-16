@@ -21,8 +21,25 @@ Keep `docs/assets` alongside `docs/pitch.html` when copying or hosting the pitch
 
 ## Experiment preparation
 
-We are preparing documentation for a later GitHub Copilot implementation
-handoff, not building experiment code in the current phase.
+The design baseline and bounded T1 contract baseline are approved. The
+separately authorized **T0 framework feasibility probe** is implemented; the
+experiment scheduler and runner are not built.
+The [T0 isolated-invocation architecture](docs/T0_FEASIBILITY.md) was accepted
+for the scripted experiment on 2026-09-16, without extending its live-provider
+claims. The [T1 contract baseline](docs/T1_CONTRACT_PROPOSAL.md) preserves the
+`T1-WM-1-candidate-3` / `1.0-candidate.3` identifiers and is approved for the
+first scripted build. T1-only contracts, serialization, validation,
+research-event records and focused fixtures are authorized and implemented in
+`src/GovernedAgent.Research`; T2-T5 remain unauthorized.
+
+The [WM-1 working-memory amendment](docs/EXPERIMENT_SPEC.md#12-approved-amendment-within-incident-working-memory)
+and the [approved T1 contract baseline](docs/T1_CONTRACT_PROPOSAL.md)
+distinguish immutable history, provisional beliefs, recommended direction, and
+versioned within-incident memory. The previously accepted decisions plus
+C4/M6, C7/M7, M3 and C8/M8, including the listed engineering limits, are
+approved. C6 evidence equivalence and case rubrics remain deferred. **Stop
+before T2: no scheduler, runtime coordinator, full runner or live calls are
+authorized.**
 
 Read [the reviewed experiment specification, v1.0](docs/EXPERIMENT_SPEC.md) for
 clock ordering, actor/supervisor contracts, guidance handling, worked timelines,
@@ -30,6 +47,11 @@ and acceptance examples. The design is accepted; implementation remains a
 separately authorized step. Open live-model and handoff items are listed in the
 specification. The worked timeline uses scripted components and is not a
 model-performance result.
+
+The [Copilot handoff](docs/COPILOT_HANDOFF.md) sequences the future scripted build
+from framework feasibility through acceptance coverage. It includes reuse
+locations, stop/go gates, and a bounded first-task assignment. Live-model
+experiments remain outside that first build.
 
 ## Purpose and intended outcome
 
@@ -47,6 +69,16 @@ Fresh, valid, actionable feedback interrupts its pending decision and requires
 reconsideration. Request cancellation where possible and suppress obsolete
 results even when cancellation fails. Already-dispatched diagnostics may
 finish; interruption is not rollback and guidance is not automatic authority.
+
+The clarified design intent is that supervision also proposes updates to shared
+working memory, so a correction can influence multiple turns within one incident.
+The coordinator validates and versions those updates; structural acceptance
+does not make a belief true. WM-1 records accepted design choices and clearly
+separates the remaining normalization, conflict, reconsideration, and wire-format
+proposals rather than silently changing v1.0.
+Neither component can rewrite observations, grant permissions, or change model
+weights. This is not cross-incident learning, a generic memory platform, or RL
+training.
 
 Agent Framework is the preferred coordination layer, with an independent
 experiment clock. The specification requires evidence that the selected
@@ -66,6 +98,48 @@ Working hypothesis, not a demonstrated result:
 > preserve responsiveness better than blocking review, provided useful guidance
 > arrives in time and is applied appropriately. Supervision may also add cost,
 > delay, or mistakes without improving the outcome.
+
+### Architecture: memory and interruption
+
+![The fast actor and slow supervisor read versioned shared working memory. The supervisor proposes updates; one coordinator commits accepted changes and interrupts pending actor decisions. A governed gateway controls diagnostics, whose observations return to shared history.](docs/architecture/actor-supervisor-shared-memory.png)
+
+**Memory makes a correction persist; interruption makes it effective promptly.**
+The diagram illustrates the approved within-incident working-memory design.
+T1 implements its contracts, not the T2/T3 runtime behavior. Observations
+remain immutable, beliefs remain provisional, and neither memory nor
+supervisory confidence grants execution authority.
+
+[Editable Excalidraw source](docs/architecture/actor-supervisor-shared-memory.excalidraw)
+| [Scalable SVG](docs/architecture/actor-supervisor-shared-memory.svg)
+
+### What this comparison can tell us
+
+The first memory-enabled study investigates **ongoing supervision and
+within-incident shared-memory adaptation as a combined design**. Under WM-1's
+accepted writer scope, the supervisor proposes semantic belief/direction
+updates; the actor reads them but does not independently commit beliefs.
+The actor-only baseline retains its observed history and reasoning capability,
+but has no supervisor producing shared belief updates.
+
+Consequently, an improvement over actor-only would support the combined design
+in the conditions studied. It would not isolate the benefit of persistent memory,
+extra reasoning, or interruption individually, and it would not demonstrate
+reinforcement-learning training. Isolating those effects would require additional
+controlled comparisons, outside the initial scope.
+
+Blocking and asynchronous supervision use the same actor configuration,
+supervisor configuration, memory rules, and external event schedule. Their
+comparison examines the consequences of waiting versus continuing and being
+interrupted. Different timing can lead to different observations, memory states,
+and review counts; record those differences and their resource costs rather than
+claim identical histories or a pure inference-speed comparison.
+
+Evaluate by incident category, including cases where the actor needs no help.
+Keep the costs of conservative coordination visible: exact-base rejection may
+discard useful advice after a direction-expiry revision, persistent beliefs may
+retain mistakes, and frequent meaningful memory updates may repeatedly interrupt
+useful work. These are outcomes to measure, not problems to hide by adjusting
+the rules until supervision wins.
 
 ### Scope decision: supervision, not just routing
 

@@ -2,12 +2,31 @@
 
 ## Current preparation phase
 
-Work is documentation and design only until the user explicitly authorizes
-experiment implementation. [EXPERIMENT_SPEC.md](docs/EXPERIMENT_SPEC.md) is a
-reviewed v1.0 design baseline. A later authorized implementation task must name
-that revision and its scope. Resolve explicitly open handoff and live-model
-methodology items before implementing affected behavior; do not invent research
-thresholds or confuse design acceptance with implementation authorization.
+The reviewed design baseline is [EXPERIMENT_SPEC.md](docs/EXPERIMENT_SPEC.md)
+v1.0 plus WM-1. On 2026-09-16, the user approved
+`T1-WM-1-candidate-3` / `1.0-candidate.3` as the first scripted-build contract
+baseline, including C4/M6, C7/M7, M3, C8/M8 and the listed engineering limits.
+Previously accepted decisions remain accepted; C6 remains deferred.
+
+Use [COPILOT_HANDOFF.md](docs/COPILOT_HANDOFF.md) to scope later authorized
+implementation tasks. Start with its framework feasibility gate; do not execute
+all tasks merely because the handoff exists or replace scripted components
+with live model calls.
+
+On 2026-09-16, the user accepted the T0 isolated-invocation architecture for
+the scripted experiment: Agent Framework runs isolated actor/supervisor
+invocations; one experiment coordinator owns scheduling, immutable snapshots,
+decision generations, interruption, and dispatch eligibility. Do not use the
+tested shared fan-out graph for the asynchronous treatment. This acceptance
+does not establish live-provider cancellation or concurrency support.
+
+T1-only implementation is authorized: bounded research contracts,
+serialization, validation, research-event records, working-memory revisions,
+reconsideration triggers, reassertion lineage, consumed-revision provenance,
+and focused contract fixtures. Keep this metadata separate from operational
+plan schemas. **Stop before T2.** The scheduler, runtime coordinator, full
+runner, T2-T5, live calls, deployment, and governance behavior changes are not
+authorized.
 
 ## Research scope
 
