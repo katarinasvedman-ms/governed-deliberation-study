@@ -6,13 +6,30 @@ An experimental research project investigating when a fast actor benefits from
 a slower, ongoing supervisor under independently enforced execution controls.
 This is a bounded study, not an agent platform or production service.
 
+![A luminous running figure and a seated reflective figure exchange flowing data through arrows in both directions, illustrating fast action and slower supervision.](docs/assets/fast-actor-slow-supervisor.png)
+
+*Fast action. Ongoing reflection. Connected through feedback.*
+
 ## Discussion pitch
 
 Open [the research pitch](docs/pitch.html) for team, customer, and community
-discussions. It is a self-contained HTML page with illustrative scenarios,
+discussions. It is an HTML page with a local illustration asset, illustrative scenarios,
 research questions, study boundaries, and a print/PDF option. It presents a
 proposal, not experimental results. The previous governance-demo pitch remains
 available in the source history.
+Keep `docs/assets` alongside `docs/pitch.html` when copying or hosting the pitch.
+
+## Experiment preparation
+
+We are preparing documentation for a later GitHub Copilot implementation
+handoff, not building experiment code in the current phase.
+
+Read [the reviewed experiment specification, v1.0](docs/EXPERIMENT_SPEC.md) for
+clock ordering, actor/supervisor contracts, guidance handling, worked timelines,
+and acceptance examples. The design is accepted; implementation remains a
+separately authorized step. Open live-model and handoff items are listed in the
+specification. The worked timeline uses scripted components and is not a
+model-performance result.
 
 ## Purpose and intended outcome
 
@@ -26,6 +43,15 @@ The fast actor responds to incident events. The slower supervisor reviews the
 observed trajectory, evaluates progress, and proposes feedback or a change in
 direction. In the asynchronous architecture, the actor may continue permitted
 work while review is pending; it does not wait for every supervisory response.
+Fresh, valid, actionable feedback interrupts its pending decision and requires
+reconsideration. Request cancellation where possible and suppress obsolete
+results even when cancellation fails. Already-dispatched diagnostics may
+finish; interruption is not rollback and guidance is not automatic authority.
+
+Agent Framework is the preferred coordination layer, with an independent
+experiment clock. The specification requires evidence that the selected
+runtime arrangement supports parallel progress and reliable interruption rather
+than silently serializing actor and supervisor.
 
 The outcome is a reproducible comparison, a small reference example, and a
 research report explaining where the approach helps, where it fails, and what
@@ -137,8 +163,9 @@ capabilities required by the experiment. This phase cannot establish production
 approval enforcement or remediation effectiveness from its own runs; those
 remain separate inherited evidence or later research.
 
-The following episode contract is a draft for protocol development, not a
-finalized action schema or an implemented capability.
+The following episode contract summarizes the design. The reviewed
+[experiment specification](docs/EXPERIMENT_SPEC.md) defines the scheduling and
+behavioral baseline; serialized schemas are still to be finalized.
 
 | Element | Proposed definition |
 | --- | --- |
@@ -163,10 +190,11 @@ Proposed outcome rubric:
 - Judge feedback by subsequent actor behavior and outcomes, not by agreement
   with the supervisor or the persuasiveness of its explanation.
 
-Response deadlines, action/cost budgets, the exact action and report vocabulary,
-review cadence, guidance application rules, and numerical scoring thresholds
-remain open until the protocol is frozen. No efficiency-first or quality-first
-aggregate objective has been selected; first identify where supervision helps.
+The experiment specification defines the accepted scripted timing, action
+budgets, review cadence, and guidance application rules. Live response deadlines,
+inference-cost budgets, exact serialized names, and numerical scoring thresholds
+remain handoff/protocol items. No efficiency-first or quality-first aggregate
+objective has been selected; first identify where supervision helps.
 
 ### First evolving incident: proposed storyboard
 

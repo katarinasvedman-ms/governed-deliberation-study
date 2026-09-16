@@ -115,6 +115,10 @@
     .status { border-top: 1px solid var(--cp-border); padding-top: 20px; margin-top: 24px; }
     .status strong { display: block; font-size: 14px; }
     .status p { font-size: 14px; color: var(--cp-text-muted); margin: 4px 0 0; }
+    .concept-art { margin: 0 0 32px; overflow: hidden; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); break-inside: avoid; }
+    .concept-art img { display: block; width: 100%; height: auto; }
+    .concept-art figcaption { padding: 16px 20px; color: var(--cp-text-muted); font-size: 14px; }
+    .concept-art figcaption strong { color: var(--cp-text); }
     .premise { padding: 24px 0; border-top: 1px solid var(--cp-border); border-bottom: 1px solid var(--cp-border); display: flex; flex-wrap: wrap; gap: 12px 32px; font-size: 14px; color: var(--cp-text-muted); }
     .premise strong { color: var(--cp-text); }
     .chapter { padding: 72px 0; border-bottom: 1px solid var(--cp-border); }
@@ -271,6 +275,11 @@
           </div>
         </aside>
       </section>
+      <figure class="concept-art" id="concept-illustration">
+        <img src="assets/fast-actor-slow-supervisor.png" width="1916" height="821" decoding="async"
+          alt="A luminous running figure and a seated reflective figure exchange flowing data through arrows in both directions, illustrating fast action and slower supervision.">
+        <figcaption><strong>Fast action. Ongoing reflection. Connected through feedback.</strong></figcaption>
+      </figure>
       <div class="premise" aria-label="Study boundaries">
         <span><strong>One domain:</strong> synthetic incident response</span>
         <span><strong>Three architectures:</strong> identical execution controls</span>

@@ -1,5 +1,14 @@
 # Governed Deliberation Study Engineering Guide
 
+## Current preparation phase
+
+Work is documentation and design only until the user explicitly authorizes
+experiment implementation. [EXPERIMENT_SPEC.md](docs/EXPERIMENT_SPEC.md) is a
+reviewed v1.0 design baseline. A later authorized implementation task must name
+that revision and its scope. Resolve explicitly open handoff and live-model
+methodology items before implementing affected behavior; do not invent research
+thresholds or confuse design acceptance with implementation authorization.
+
 ## Research scope
 
 This repository is a bounded research study derived from
@@ -14,6 +23,8 @@ material, not the research roadmap.
 - Keep the actor configuration constant, and match supervisor configuration and review triggers across supervised variants.
 - Match external event schedules and declare the clock model; record action-dependent evidence differences and the snapshot each review actually consumed.
 - Keep one workflow owner; models propose decisions but do not grant execution authority.
+- Actionable supervisory interrupts invalidate pending actor decisions and require reconsideration; cancellation is best effort, but obsolete-result suppression at dispatch is mandatory. Already-dispatched tools may finish.
+- Prefer Agent Framework coordination with an independent experiment clock; require parallel-progress and interruption feasibility evidence, not an assumption that workflow steps equal ticks.
 - Supervisory guidance is fallible: bind it to evidence, define applicability/expiry, and record when it changes later behavior. It must not automatically change policy, permissions, or model weights.
 - The actor's immediate constraints remain enforceable while review is pending or unavailable; retrospective supervision is not the sole safety boundary.
 - Keep confidence and model assertions separate from trusted metadata, policy, and approval.
