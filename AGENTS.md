@@ -1,4 +1,24 @@
-# Governed Agent Demo Engineering Guide
+# Governed Deliberation Study Engineering Guide
+
+## Research scope
+
+This repository is a bounded research study derived from
+`agentic-harness-validation`, not a general-purpose agent platform. The README
+defines the research questions, source baseline, comparison strategies, and
+stopping point. Inherited product and deployment documents are reference
+material, not the research roadmap.
+
+- Preserve the same execution controls across deterministic, fast-only, reasoner-only, and hybrid strategies.
+- Keep one workflow owner; models propose decisions but do not grant execution authority.
+- Keep confidence and model assertions separate from trusted metadata, policy, and approval.
+- Record actual runtime observations; fixture assertions are not empirical model results.
+- Separate development and held-out evaluation, and freeze configurations before comparative evaluation.
+- Report negative findings, failures, costs, variability, and limitations without tuning on held-out results.
+- Keep scripted fault injection separate from naturally observed model behavior.
+- Use synthetic research data and enforce provider/data-sharing constraints before model calls.
+- Do not build platform features or make deployment a prerequisite for the study.
+
+## Inherited integration guidance
 
 This project was built with the microsoft-foundry skill. Before working on or answering questions about foundry agents, read the microsoft-foundry skill first.
 
