@@ -124,6 +124,50 @@ matched no-supervisor runs before attributing improvement to supervision.
 Report model/runtime latency separately from approval waiting time, and scripted
 timing experiments separately from live inference timings.
 
+### First experiment boundary: diagnosis and direction
+
+Confirmed on 2026-09-16: the first experiment ends at an evidence-supported
+diagnosis and a justified next step, not production remediation or executed
+recovery. The actor takes bounded diagnostic actions over an evolving episode.
+The supervisor evaluates the trajectory and may suggest a different direction.
+
+Operational writes, restarts, and rollback execution are outside this first
+experiment. Retain the inherited controls, but expose only the diagnostic
+capabilities required by the experiment. This phase cannot establish production
+approval enforcement or remediation effectiveness from its own runs; those
+remain separate inherited evidence or later research.
+
+The following episode contract is a draft for protocol development, not a
+finalized action schema or an implemented capability.
+
+| Element | Proposed definition |
+| --- | --- |
+| Actor input | Current incident observations, diagnostic results accumulated so far, available actions, and applicable supervisory guidance. |
+| Diagnostic actions | Read incident context, inspect service health, query metrics, or inspect logs for declared targets. Additional dependency targets require explicit simulator support. |
+| Supervisory input | The same permitted observed history, captured at a recorded review boundary; no future events, hidden diagnosis, or scoring rationale. |
+| Supervisory output | A proposed investigative focus or next diagnostic step, referencing the evidence it used. Guidance is advisory and cannot execute tools or grant permissions itself. |
+| Actor report | A proposed diagnosis, supporting observation identifiers, and a justified next step; explicit uncertainty or human handoff is permitted where evidence is insufficient. |
+| Episode termination | The actor submits its report or a predefined time, action, or cost budget is exhausted. A declaration of completion is not evidence of success. |
+| Independent evaluation | Score the submitted report and observed trajectory against the predefined case rubric after termination, without feeding hidden answers back into the run. |
+
+Proposed outcome rubric:
+
+- Accept an evidence-supported diagnosis and an appropriate next step; a case
+  may have several acceptable next steps.
+- Accept justified uncertainty or handoff in cases whose available evidence
+  cannot support a specific diagnosis; do not reward guessing hidden truth.
+- Count unsupported conclusions, irrelevant repeated actions, missed response
+  deadlines, and inappropriate guidance influence as distinct outcome measures.
+- Record malformed outputs, timeouts, and budget exhaustion rather than
+  discarding those runs.
+- Judge feedback by subsequent actor behavior and outcomes, not by agreement
+  with the supervisor or the persuasiveness of its explanation.
+
+Response deadlines, action/cost budgets, the exact action and report vocabulary,
+review cadence, guidance application rules, and numerical scoring thresholds
+remain open until the protocol is frozen. No efficiency-first or quality-first
+aggregate objective has been selected; first identify where supervision helps.
+
 ### First evolving incident: proposed storyboard
 
 This is a design sketch, not a frozen protocol or an implemented experiment.
@@ -135,18 +179,80 @@ This is a design sketch, not a frozen protocol or an implemented experiment.
 | 3. New evidence arrives | A dependency-related signal becomes available on the predefined external schedule, accessible to both components. |
 | 4. Supervisory review | A supervisor may identify the ineffective pattern and propose a dependency-focused direction, bound to the observations it reviewed. |
 | 5. Continue or wait | The asynchronous actor can continue permitted work during review; the blocking variant waits at its review checkpoint. The harness assesses guidance applicability before it influences later decisions. |
-| 6. Observe the trajectory | Measure whether the investigation improves, how promptly it responds, what guidance it used, and what the additional work cost. |
+| 6. Report and evaluate | The actor reports its diagnosis and justified next step, or reaches a budget limit. Score the investigation, responsiveness, guidance influence, and cost without executing remediation. |
 
 Variations include recovery before guidance arrives, a wrong supervisory
 interpretation, and a routine case needing no correction. Freshness and policy
 checks cannot guarantee that every semantically wrong recommendation is caught;
 record harmful guidance influence even when its resulting action was permitted.
-No remediation may bypass the existing approval requirements.
+Production remediation is not performed in this first experiment.
 
 Start with scripted actors and supervisors to exercise timing, guidance
 application, and observation capture. These are mechanism checks, not evidence
 of model effectiveness. Introduce real models only after the experiment can
 record trustworthy outcomes.
+
+### Draft evidence sequence: Payments investigation
+
+This published worked example is for protocol development, not the held-out
+evaluation set. All values below are synthetic. The target is a supported
+failure-domain diagnosis, not proof of the deepest underlying root cause.
+
+Use logical ticks to describe event ordering for the initial scripted mechanism
+exercise. The proposed spacing below is not measured inference latency and
+does not imply seconds or milliseconds. Review duration, actor duration,
+deadlines, and the mapping for later live-model runs remain to be specified.
+
+| Available from | Evidence | Delivery | What it supports, not a model-visible answer key |
+| --- | --- | --- | --- |
+| Tick 0 | E0: Payments API error rate is 18%, up from below 1%; p95 latency is 2.6 seconds, previously 0.3 seconds. | Shared incident notification. | There is an active incident; no specific cause is yet established. |
+| Tick 4 | E1: All three API instances are ready, CPU is 30-45%, memory is stable, and no application deployment occurred in the previous hour. | Shared monitoring update; details available through service-health and metrics queries. | Weakens an isolated unhealthy-instance or recent-deployment explanation; does not rule out an application defect. |
+| Tick 8 | E2: Eight of ten sampled failing requests contain an outbound authorization-service span reaching its configured two-second timeout. The pattern occurs across all API instances; other downstream spans are unchanged. | Shared trace-summary update, with observation identifiers available for citation. | Prioritizes the authorization dependency path, but does not yet distinguish dependency processing delay from the network or caller behavior. |
+| Tick 12 | E3: Authorization-service diagnostics show linked requests arriving, with p95 queue wait of 2.3 seconds before approximately 0.1 seconds of processing. Request identifiers link this delay to failed API traces. | Actor must request the relevant dependency metrics/logs; results enter the shared observed history. Availability itself is not a notification that reveals the answer. | Corroborates dependency-side queue delay as the supported failure domain. It does not establish why that queue developed. |
+| Tick 16 | E4: A local cache warning appears in a shared log digest. Its rate is unchanged from before the incident, and sampled warning identifiers do not match the failed requests. | Shared monitoring/log update if the episode is still running. | A plausible distraction, not affirmative evidence that cache behavior caused this incident. |
+| Tick 24 | Proposed episode time limit, if no report has been submitted. | Harness termination condition, not a model observation about the diagnosis. | Record timeout/budget exhaustion separately from successful diagnosis. This limit is provisional. |
+
+Delivery rules:
+
+- Shared notifications become visible at their scheduled tick, whether or not
+  the actor is waiting for review. No component sees a future event.
+- An on-demand diagnostic returns only evidence available at its recorded query
+  snapshot. Before tick 12, dependency queries may report that the diagnostic
+  evidence is not yet available; they must not reveal E3 early.
+- Query results join the observation history accessible to both components.
+  The supervisor has no separate diagnostic-tool access in this first draft.
+  A review already in flight retains its captured snapshot; newly arriving
+  evidence does not silently rewrite its input.
+- Log both when evidence becomes available in the environment and when it is
+  actually observed. Distinguish delay in discovering evidence from delay in
+  interpreting or acting on evidence already seen.
+- Case labels, hidden world state, the schedule of future evidence, and the
+  interpretation column above are evaluator/development material, not prompt
+  inputs. The actor may know its declared remaining time/action budget.
+
+Proposed evaluator expectations:
+
+| Evidence actually observed when reporting | Appropriate conclusions and direction |
+| --- | --- |
+| E0 only, or E0 plus E1 | Keep the diagnosis uncertain; choose relevant diagnostics. A confident specific root-cause claim is unsupported even if it guesses the hidden cause. |
+| E2 but not E3 | Report the dependency path as a hypothesis and seek dependency-side evidence. Do not assert queue delay as established. |
+| E2 and E3 | Identify authorization-service queue delay as the supported failure domain and propose a justified next step, such as investigating its queue/workers or handing the evidence to the owning team. Do not execute a production change. |
+| Approaching the budget limit without sufficient evidence | A report may explain the observed limitation and justified uncertainty/handoff. Score evidence coverage, investigative choices, and budget use separately so premature abstention is not treated as equivalent to a well-supported diagnosis. Runs reaching the limit without a report remain timeouts. |
+
+Neither architecture is required to get stuck. A fast actor that interprets E2,
+collects E3, and reports appropriately without help is a valid null result for
+the value of supervision. For an apparent correction, record the actor's prior
+direction, the guidance and cited evidence, and the later action; compare matched
+actor-only runs before attributing the change to the supervisor.
+
+World variants should include an actual local-instance fault, insufficient
+evidence to distinguish the failure domain, and recovery before advice arrives.
+Recovery variants must replace subsequent active-fault diagnostics with fresh
+recovery observations, while retaining older observations as historical.
+Delayed or deliberately incorrect supervisory guidance is a separate scripted
+fault-injection dimension, not a replacement for naturally observed model errors.
+Held-out variants must vary signals and presentation without exposing labels
+that reveal the expected diagnosis or whether supervision should help.
 
 Before the comparative evaluation:
 

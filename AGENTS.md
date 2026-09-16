@@ -9,6 +9,7 @@ stopping point. Inherited product and deployment documents are reference
 material, not the research roadmap.
 
 - The primary study is ongoing supervision over evolving trajectories, not selective per-request routing or isolated fixed-snapshot decisions.
+- The first experiment ends at diagnosis and a justified next step using bounded diagnostic actions; do not introduce production remediation or count model-declared completion as success.
 - Preserve the same execution controls across actor-only, blocking-supervision, and asynchronous-supervision architectures; retain a deterministic reference where practical.
 - Keep the actor configuration constant, and match supervisor configuration and review triggers across supervised variants.
 - Match external event schedules and declare the clock model; record action-dependent evidence differences and the snapshot each review actually consumed.
