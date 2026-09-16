@@ -6,6 +6,14 @@ An experimental research project investigating when fast structured judgments
 and slower reasoning should cooperate under independently enforced execution
 controls. This is a bounded study, not an agent platform or production service.
 
+## Discussion pitch
+
+Open [the research pitch](docs/pitch.html) for team, customer, and community
+discussions. It is a self-contained HTML page with illustrative scenarios,
+research questions, study boundaries, and a print/PDF option. It presents a
+proposal, not experimental results. The previous governance-demo pitch remains
+available in the source history.
+
 ## Purpose and intended outcome
 
 Investigate whether selective deliberation improves incident-response outcomes,
@@ -171,4 +179,3 @@ are not research commitments.
 - [Verification Specification](docs/VERIFICATION_SPEC.md)
 - [Credential-free hosted-agent release](docs/RELEASE_DEPLOYMENT.md)
 - [ADR 0001: GitHub Copilot SDK inner loop](docs/adr/0001-copilot-sdk-inner-loop.md)
-- [Standalone solution pitch](docs/pitch.html)
