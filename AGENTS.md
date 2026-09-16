@@ -8,10 +8,16 @@ defines the research questions, source baseline, comparison strategies, and
 stopping point. Inherited product and deployment documents are reference
 material, not the research roadmap.
 
-- Preserve the same execution controls across deterministic, fast-only, reasoner-only, and hybrid strategies.
+- The primary study is ongoing supervision over evolving trajectories, not selective per-request routing or isolated fixed-snapshot decisions.
+- Preserve the same execution controls across actor-only, blocking-supervision, and asynchronous-supervision architectures; retain a deterministic reference where practical.
+- Keep the actor configuration constant, and match supervisor configuration and review triggers across supervised variants.
+- Match external event schedules and declare the clock model; record action-dependent evidence differences and the snapshot each review actually consumed.
 - Keep one workflow owner; models propose decisions but do not grant execution authority.
+- Supervisory guidance is fallible: bind it to evidence, define applicability/expiry, and record when it changes later behavior. It must not automatically change policy, permissions, or model weights.
+- The actor's immediate constraints remain enforceable while review is pending or unavailable; retrospective supervision is not the sole safety boundary.
 - Keep confidence and model assertions separate from trusted metadata, policy, and approval.
 - Record actual runtime observations; fixture assertions are not empirical model results.
+- Evaluate trajectories and responsiveness by predefined scenario category, including wrong/late guidance and cases where supervision adds no value.
 - Separate development and held-out evaluation, and freeze configurations before comparative evaluation.
 - Report negative findings, failures, costs, variability, and limitations without tuning on held-out results.
 - Keep scripted fault injection separate from naturally observed model behavior.

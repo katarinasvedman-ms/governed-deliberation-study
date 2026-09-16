@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="When should an agent stop and think? A bounded research study of fast judgments, slower reasoning, and independently enforced execution controls.">
+  <meta name="description" content="Can a slower, ongoing supervisor improve a fast agent's behavior over time? A bounded research study of responsiveness, feedback, and independently enforced execution controls.">
   <link rel="icon" href="data:,">
-  <title>Governed Deliberation Study | Fast decisions. Fixed authority.</title>
+  <title>Governed Deliberation Study | Fast action. Ongoing reflection.</title>
   <script>
     (() => {
       const param = new URLSearchParams(window.location.search).get("scoutTheme");
@@ -122,7 +122,6 @@
     .grid { display: grid; gap: 20px; }
     .three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .card { padding: 24px; border: 1px solid var(--cp-border); background: var(--cp-surface); border-radius: 16px; }
     .card p:last-child { margin-bottom: 0; }
     .card h3 { font-size: 22px; }
@@ -189,7 +188,6 @@
       .nav { gap: 12px; }
       .nav .optional { display: none; }
       .hero { gap: 28px; grid-template-columns: 1.2fr 1fr; }
-      .four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 760px) {
       html { scroll-padding-top: 130px; }
@@ -210,7 +208,6 @@
       .closing { padding: 24px; }
     }
     @media (max-width: 440px) {
-      .four { grid-template-columns: 1fr; }
       .brand { font-size: 15px; }
       .control { font-size: 13px; padding: 8px; }
     }
@@ -256,9 +253,9 @@
       <section class="hero" id="top" aria-labelledby="pitch-title">
         <div>
           <p class="eyebrow">Research proposal / September 2026</p>
-          <h1 id="pitch-title">When should an agent <span>stop and think?</span></h1>
-          <p class="lead">Fast judgments for familiar situations. Deeper reasoning when it matters. Independently enforced limits on what either may do.</p>
-          <p class="muted">Can that combination make automation more useful without giving speed more authority?</p>
+          <h1 id="pitch-title">Act fast.<br><span>Keep thinking.</span></h1>
+          <p class="lead">A fast actor responds to the world. A slower supervisor evaluates progress, gives feedback, and sometimes proposes a new direction.</p>
+          <p class="muted">Can ongoing reflection improve the next actions without sacrificing responsiveness or giving either component more authority?</p>
           <div class="actions">
             <a class="button" href="#scenario">Explore the scenario</a>
             <a class="button secondary" href="#study">See what we will study</a>
@@ -266,7 +263,7 @@
         </div>
         <aside class="thesis" aria-label="Research proposition and current status">
           <span class="label">The proposition worth testing</span>
-          <blockquote>Change the depth of thinking.<br>Keep the limits on action.</blockquote>
+          <blockquote>Keep responding.<br>Reconsider the direction.</blockquote>
           <p class="muted">Governance may be more than a restriction on autonomy. It may be what makes faster, specialized intelligence usable.</p>
           <div class="status">
             <strong>Proposal, not a performance claim.</strong>
@@ -276,31 +273,31 @@
       </section>
       <div class="premise" aria-label="Study boundaries">
         <span><strong>One domain:</strong> synthetic incident response</span>
-        <span><strong>Four strategies:</strong> identical execution controls</span>
+        <span><strong>Three architectures:</strong> identical execution controls</span>
         <span><strong>One output:</strong> evidence, not a platform</span>
       </div>
 
       <section class="chapter" id="why" aria-labelledby="why-title">
         <div class="section-head">
           <span class="label">01 / Why this question matters</span>
-          <h2 id="why-title">Not every decision needs the same amount of thinking.</h2>
-          <p class="lead">But a quick answer and a safe-to-execute action are different things.</p>
+          <h2 id="why-title">Reasonable steps can still lead in the wrong direction.</h2>
+          <p class="lead">The fast actor handles what is happening now. The supervisor asks whether the sequence of actions is actually helping.</p>
         </div>
         <div class="grid three">
           <article class="card">
             <span class="label">Opportunity</span>
-            <h3>Spend reasoning where it helps.</h3>
-            <p>Some decisions are narrow and familiar. Others need investigation. Always deliberating may add delay and cost; always reacting may miss important context.</p>
+            <h3>See the pattern across actions.</h3>
+            <p>A responsive agent may repeat plausible but ineffective steps. Slower reflection could recognize that pattern and improve what happens next.</p>
           </article>
           <article class="card">
             <span class="label">Risk</span>
             <h3>The world does not wait.</h3>
-            <p>A proposal can become outdated while a model reasons or a person approves. Coordination must account for changing evidence, not just model confidence.</p>
+            <p>Pausing for every review can delay response. But continuing while advice is pending creates another risk: the advice may be outdated when it arrives.</p>
           </article>
           <article class="card">
             <span class="label">Research opportunity</span>
-            <h3>Make the handoff explicit.</h3>
-            <p>Study when to continue, investigate, pause, or abstain, while keeping permissions and execution controls outside both models.</p>
+            <h3>Study correction, not just confidence.</h3>
+            <p>When does supervision change behavior for the better? When does it add delay, cost, or mistakes? More reasoning is not automatically better guidance.</p>
           </article>
         </div>
         <div class="callout" aria-label="Central research thesis">
@@ -311,14 +308,14 @@
       <section class="chapter" id="idea" aria-labelledby="idea-title">
         <div class="section-head">
           <span class="label">02 / From inspiration to a research question</span>
-          <h2 id="idea-title">Specialize the judgment.<br>Do not fragment the authority.</h2>
+          <h2 id="idea-title">Two timescales.<br>One execution authority.</h2>
         </div>
         <div class="grid two">
           <article class="card">
             <h3>Two inspirations. Different roles.</h3>
             <dl class="comparison">
               <dt>Talker-Reasoner architecture</dt>
-              <dd>A fast conversational agent cooperates with slower reasoning through shared state. The paper also exposes the risk of responding from outdated beliefs.</dd>
+              <dd>A fast conversational agent cooperates with slower reasoning through shared state. This inspires ongoing cooperation, while exposing the risk of acting on outdated beliefs.</dd>
               <dt>Fast structured decision models</dt>
               <dd>TypeSafe presents Jev as a model for typed judgments and probabilities rather than generated conversation. It is not a direct replacement for a Talker.</dd>
             </dl>
@@ -327,78 +324,83 @@
           <article class="card">
             <h3>The proposed division of responsibility</h3>
             <dl class="comparison">
-              <dt>Fast judgment</dt>
-              <dd>Recognize a familiar pattern, classify evidence, or select a bounded next step.</dd>
-              <dt>Slower deliberation</dt>
-              <dd>Gather more evidence, resolve ambiguity, and propose a plan.</dd>
+              <dt>Fast actor</dt>
+              <dd>Respond to incident events and choose bounded actions within current constraints, including while supervisory review is pending.</dd>
+              <dt>Slower supervisor</dt>
+              <dd>Review the observed history, evaluate progress, and propose feedback or a new diagnostic direction for subsequent actions.</dd>
               <dt>One harness, independent controls</dt>
-              <dd>Coordinate the workflow and enforce policy, evidence freshness, exact approval, and execution limits. Neither model authorizes itself.</dd>
+              <dd>Coordinate when guidance can apply and enforce policy, freshness, approval, and execution limits. Neither component grants permission.</dd>
             </dl>
           </article>
         </div>
-        <p class="callout"><strong>Working hypothesis:</strong> selective deliberation can offer a useful trade-off on some workloads, if escalation and evidence handling are explicit. The study must be able to disprove it.</p>
+        <p class="callout"><strong>Working hypothesis:</strong> ongoing supervision can improve some incident trajectories, while asynchronous cooperation can preserve responsiveness better than blocking review. Both benefits must be demonstrated, not assumed.</p>
+        <details>
+          <summary>How is this different from routing to a bigger model?</summary>
+          <p class="muted">Selective routing chooses which model handles a request. Here, the fast actor keeps working while a slower supervisor reflects on the developing situation and influences later decisions. Routing remains a secondary comparison, not the primary study.</p>
+          <p class="muted">Feedback can change a working plan without retraining model weights. Ongoing review does not imply hard real-time guarantees, and a slow supervisor cannot be the sole safeguard against an immediate harmful action.</p>
+        </details>
       </section>
 
       <section class="chapter" id="scenario" aria-labelledby="scenario-title">
         <div class="section-head">
           <span class="label">03 / Make it concrete</span>
-          <h2 id="scenario-title">A service incident.<br>Three moments that matter.</h2>
-          <p class="lead">An agent is asked to investigate elevated errors in a Payments API. Does it recognize a familiar issue, need deeper investigation, or need to stop?</p>
+          <h2 id="scenario-title">One evolving incident.<br>Three supervisory outcomes.</h2>
+          <p class="lead">Payments API errors rise. The actor investigates. As evidence accumulates, can a supervisor improve the direction without becoming a bottleneck?</p>
         </div>
         <div class="scenario">
           <div class="scenario-intro"><p><strong>Illustrative scenarios, not recorded results.</strong> These describe behavior we intend to evaluate in a synthetic environment. No model or operational tool runs on this page.</p></div>
           <div class="scenario-tabs" role="tablist" aria-label="Illustrative incident scenarios">
-            <button class="scenario-tab" id="tab-familiar" role="tab" aria-selected="true" aria-controls="panel-familiar" tabindex="0" type="button">A familiar pattern</button>
-            <button class="scenario-tab" id="tab-changing" role="tab" aria-selected="false" aria-controls="panel-changing" tabindex="-1" type="button">Evidence changes</button>
-            <button class="scenario-tab" id="tab-limits" role="tab" aria-selected="false" aria-controls="panel-limits" tabindex="-1" type="button">Confidence meets a limit</button>
+            <button class="scenario-tab" id="tab-familiar" role="tab" aria-selected="true" aria-controls="panel-familiar" tabindex="0" type="button">Useful correction</button>
+            <button class="scenario-tab" id="tab-changing" role="tab" aria-selected="false" aria-controls="panel-changing" tabindex="-1" type="button">Guidance arrives late</button>
+            <button class="scenario-tab" id="tab-limits" role="tab" aria-selected="false" aria-controls="panel-limits" tabindex="-1" type="button">The supervisor is wrong</button>
           </div>
           <div class="scenario-panel" id="panel-familiar" role="tabpanel" aria-labelledby="tab-familiar" tabindex="0">
             <div class="scenario-layout">
               <div>
-                <span class="label">Case A / A possible fast path</span>
-                <h3>Recognize quickly.<br>Still respect the boundary.</h3>
-                <p class="muted">Evidence suggests one unhealthy service instance. A fast component proposes a bounded next step. Does deeper reasoning improve that choice enough to justify the overhead?</p>
+                <span class="label">Case A / A possible course correction</span>
+                <h3>Act on each event.<br>Reflect across the sequence.</h3>
+                <p class="muted">Instance-focused diagnostics look reasonable but may repeat without narrowing the cause. New evidence points toward a dependency. A supervisor may notice that the investigation needs to change.</p>
               </div>
               <ol class="steps">
-                <li><strong>Observe the same starting evidence.</strong><span>Each strategy receives the incident context and access to the same permitted diagnostic tools.</span></li>
-                <li><strong>Propose, or escalate.</strong><span>The fast component suggests a next step; the hybrid may request deeper investigation.</span></li>
-                <li><strong>Apply the same execution rules.</strong><span>A production restart still requires exact approval. Speed does not remove the gate.</span></li>
-                <li><strong>Evaluate the actual outcome.</strong><span>Did the service recover appropriately, with fewer unnecessary actions, lower cost, or less delay?</span></li>
+                <li><strong>The actor responds.</strong><span>It chooses permitted diagnostic actions as incident events arrive. Repetition is a possible outcome, not a forced model mistake.</span></li>
+                <li><strong>The supervisor reviews.</strong><span>It considers the observed trajectory and new dependency evidence available to both components.</span></li>
+                <li><strong>Guidance influences later behavior.</strong><span>Applicable feedback may redirect the next diagnostic step. The harness still controls every side effect.</span></li>
+                <li><strong>Measure the difference.</strong><span>Does the investigation improve versus actor-only and blocking-review runs, with acceptable responsiveness and cost?</span></li>
               </ol>
             </div>
-            <p class="prompt"><strong>Discussion:</strong> which decisions in your workflow are familiar enough for a fast path, and which should remain simple rules?</p>
+            <p class="prompt"><strong>Discussion:</strong> where could individually reasonable actions repeat without making useful progress?</p>
           </div>
           <div class="scenario-panel" id="panel-changing" role="tabpanel" aria-labelledby="tab-changing" tabindex="0">
             <div class="scenario-layout">
               <div>
-                <span class="label">Case B / The handoff problem</span>
-                <h3>A reasonable proposal.<br>A different world.</h3>
-                <p class="muted">While a restart is being considered, the service recovers or new evidence points elsewhere. The action may still be well-formed, but its justification has changed.</p>
+                <span class="label">Case B / Delayed feedback</span>
+                <h3>The review finishes.<br>The situation has changed.</h3>
+                <p class="muted">While the supervisor forms its recommendation, the dependency recovers or new observations invalidate its explanation. Old guidance must not silently steer new actions.</p>
               </div>
               <ol class="steps">
-                <li><strong>Record the evidence behind the proposal.</strong><span>Retain the relevant state version and evidence snapshot, not just the proposed command.</span></li>
-                <li><strong>Introduce a controlled change.</strong><span>The simulator changes state, or new diagnostic evidence arrives, before execution.</span></li>
-                <li><strong>Challenge the pending decision.</strong><span>Expected behavior: detect material staleness and pause for reconsideration rather than execute blindly.</span></li>
-                <li><strong>Observe the revised outcome.</strong><span>Does the strategy replan, abstain, or ask for new approval when required?</span></li>
+                <li><strong>Bind review to its observations.</strong><span>Record the evidence snapshot consumed by the supervisor and when the guidance was produced.</span></li>
+                <li><strong>Let the environment evolve.</strong><span>A matched external event changes the situation while review is pending. The clock does not silently pause for the slower component.</span></li>
+                <li><strong>Assess whether guidance still applies.</strong><span>Expected behavior: reject or supersede materially stale advice and reconsider the direction.</span></li>
+                <li><strong>Observe responsiveness and recovery.</strong><span>How much ineffective work happened before useful correction, and did late feedback make the trajectory worse?</span></li>
               </ol>
             </div>
-            <p class="prompt"><strong>Discussion:</strong> what could change between recommendation and execution that should invalidate a decision in your environment?</p>
+            <p class="prompt"><strong>Discussion:</strong> how long is guidance useful, and what should the actor be allowed to do while it waits?</p>
           </div>
           <div class="scenario-panel" id="panel-limits" role="tabpanel" aria-labelledby="tab-limits" tabindex="0">
             <div class="scenario-layout">
               <div>
-                <span class="label">Case C / Authority stays independent</span>
-                <h3>Both models can agree.<br>The answer can still be no.</h3>
-                <p class="muted">A component confidently recommends a prohibited production delete or an unapproved write. Even a second model's agreement cannot grant permission.</p>
+                <span class="label">Case C / Fallible supervision</span>
+                <h3>Slower does not mean right.<br>Agreement is not authority.</h3>
+                <p class="muted">The supervisor misinterprets the incident and recommends an unhelpful direction or a prohibited action. The experiment must expose mistakes introduced by supervision, not only mistakes it corrects.</p>
               </div>
               <ol class="steps">
-                <li><strong>Present a consequential proposal.</strong><span>Keep naturally observed mistakes separate from scripted fault-injection cases.</span></li>
-                <li><strong>Separate belief from authority.</strong><span>Model confidence and persuasive explanations do not change trusted policy or approval requirements.</span></li>
-                <li><strong>Exercise the execution boundary.</strong><span>Expected behavior: deny the prohibited action or pause the approvable action without an unauthorized side effect.</span></li>
-                <li><strong>Record what actually happened.</strong><span>Use gateway decisions and simulator state, not a model's claim that it complied.</span></li>
+                <li><strong>Observe or inject bad guidance.</strong><span>Separate natural supervisory errors from scripted mechanism checks.</span></li>
+                <li><strong>Preserve immediate constraints.</strong><span>Advice cannot grant permissions, bypass approval, or retrospectively make a harmful action acceptable.</span></li>
+                <li><strong>Distinguish allowed from useful.</strong><span>Policy can reject a prohibited action without detecting every bad diagnostic recommendation. Record both kinds of failure.</span></li>
+                <li><strong>Measure the resulting behavior.</strong><span>Did the actor apply the advice, lose progress, or recover? A persuasive review is not evidence of an improved outcome.</span></li>
               </ol>
             </div>
-            <p class="prompt"><strong>Discussion:</strong> which limits must hold regardless of how capable, fast, or confident the model becomes?</p>
+            <p class="prompt"><strong>Discussion:</strong> how would we recognize when supervision is making the actor worse?</p>
           </div>
         </div>
       </section>
@@ -406,30 +408,32 @@
       <section class="chapter" id="study" aria-labelledby="study-title">
         <div class="section-head">
           <span class="label">04 / The research design</span>
-          <h2 id="study-title">Four strategies.<br>No preferred winner.</h2>
-          <p class="lead">The hybrid must earn its complexity. If rules or a single model are sufficient, that is a useful finding.</p>
+          <h2 id="study-title">Three architectures.<br>No preferred winner.</h2>
+          <p class="lead">Compare no supervision, blocking review, and ongoing asynchronous review. Keep a deterministic reference where practical. Supervision must earn its complexity.</p>
         </div>
-        <div class="grid four">
-          <article class="card strategy"><span class="label">Baseline A</span><h3>Rules</h3><p>Deterministic decisions for known situations. Is AI needed at all?</p></article>
-          <article class="card strategy"><span class="label">Baseline B</span><h3>Fast-only</h3><p>Bounded model judgments without slower deliberation.</p></article>
-          <article class="card strategy"><span class="label">Baseline C</span><h3>Reasoner-only</h3><p>Deliberation for every case. What does the extra work buy?</p></article>
-          <article class="card strategy selected"><span class="label">Research candidate</span><h3>Selective hybrid</h3><p>Fast judgments with explicit escalation. When is the handoff worthwhile?</p></article>
+        <div class="grid three">
+          <article class="card strategy"><span class="label">Baseline</span><h3>Fast actor alone</h3><p>Respond without a supervisor. Establish responsiveness, goal progress, and persistence in mistakes.</p></article>
+          <article class="card strategy"><span class="label">Blocking comparison</span><h3>Wait for review</h3><p>At defined checkpoints, the actor waits for supervisory guidance before proceeding. Measure benefit and delay.</p></article>
+          <article class="card strategy selected"><span class="label">Research candidate</span><h3>Ongoing supervision</h3><p>The actor continues permitted work while the supervisor reviews. Applicable feedback can influence subsequent actions.</p></article>
         </div>
-        <div class="constant"><strong>Same authority. Same starting evidence. Same outcome criteria.</strong><p>Identical execution controls and permitted tools. Any additional investigation counts toward time and cost.</p></div>
+        <div class="constant"><strong>Same actor. Same controls. Matched external events.</strong><p>Match supervisor configuration and review triggers across supervised variants. No hidden answers or future evidence; record what each component actually observed.</p></div>
         <div class="questions" aria-label="Research questions and measurements">
-          <article class="question"><span class="label">RQ1</span><h3>Does selective deliberation offer a useful trade-off?</h3><p>Measure correct outcomes, unnecessary actions, latency, inference cost, and approval demand.</p></article>
-          <article class="question"><span class="label">RQ2</span><h3>When should the fast path escalate?</h3><p>Compare confidence-only routing with consequence-, ambiguity-, and freshness-aware routing.</p></article>
-          <article class="question"><span class="label">RQ3</span><h3>What happens when evidence changes?</h3><p>Observe stale-proposal invalidation, reconsideration, and the eventual workflow outcome.</p></article>
+          <article class="question"><span class="label">RQ1</span><h3>Where does supervision improve the trajectory?</h3><p>Measure goal progress, appropriate outcomes, unnecessary actions, and persistence in mistakes by predefined case category.</p></article>
+          <article class="question"><span class="label">RQ2</span><h3>What responsiveness and resource trade-off does it introduce?</h3><p>Compare event-to-action latency, deadlines met, review lag, total inference cost, and approval demand.</p></article>
+          <article class="question"><span class="label">RQ3</span><h3>When does feedback help, arrive too late, or mislead?</h3><p>Trace guidance to later behavior. Measure time to useful correction and stale or incorrect advice applied.</p></article>
           <article class="question"><span class="label">RQ4</span><h3>Do the execution constraints remain enforced?</h3><p>Record real attempts, approvals, denials, and side effects within the study's defined scope.</p></article>
         </div>
         <details>
           <summary>What would make the evidence credible?</summary>
           <ul>
-            <li>Define success criteria and budgets before looking at comparative results.</li>
-            <li>Develop routing on one scenario set; evaluate on a separate held-out set with frozen configurations.</li>
+            <li>Define goals, acceptable responsiveness, review cadence, guidance expiry, and budgets before comparative results.</li>
+            <li>Develop on one scenario set; evaluate on a separate held-out set with frozen models and supervision rules.</li>
+            <li>Declare the clock model and external event schedule. Record action-dependent evidence differences instead of assuming identical trajectories.</li>
+            <li>Report conditions separately: reasoning demand, consequences, evidence change, and opportunity for correction. Regulation alone does not imply benefit.</li>
             <li>Repeat runs and report variability, failed runs, model versions, and limitations.</li>
-            <li>Judge outcomes against predefined simulator/domain criteria, not model opinion alone.</li>
-            <li>Separate runtime latency from approval waiting time and count additional evidence-gathering costs.</li>
+            <li>Judge outcomes against predefined simulator/domain criteria, and compare matched runs before attributing improvement to feedback.</li>
+            <li>Include routine cases needing no correction and wrong or late supervision. Distinguish scripted faults and timing from live model behavior.</li>
+            <li>Separate runtime latency from approval waiting time and count actor, supervisor, and coordination costs.</li>
             <li>Use synthetic data. Govern what may be sent to each model provider as well as what may be executed.</li>
           </ul>
         </details>
@@ -445,18 +449,18 @@
             <span class="label">Inherited from the original repository</span>
             <h3>The controlled environment</h3>
             <p>Canonical plans, deterministic policy, exact approval, a governed gateway, a versioned incident simulator, audit scaffolding, and bounded plan verification.</p>
-            <p>These give us a place to compare decision strategies without changing their authority.</p>
+            <p>These give us a place to compare cooperative architectures without changing their authority.</p>
           </article>
           <article class="card">
             <span class="label">Planned research work</span>
             <h3>The comparative experiment</h3>
-            <p>Fast/slow orchestration, evidence-bound decisions, a runner collecting actual observations, broader scenarios, and comparative analysis.</p>
+            <p>An evolving event sequence, asynchronous review, evidence-bound guidance, and a runner tracing feedback to subsequent actions and outcomes.</p>
             <p>The inherited UI is a mock, and evaluation fixtures are not model-run results. There are no comparative findings yet.</p>
           </article>
         </div>
         <div class="boundary">
-          <div><h3>What this could establish</h3><p>Where selective deliberation helps, when it fails, and which coordination mechanisms are necessary in the scenarios studied.</p></div>
-          <div><h3>What it cannot establish</h3><p>Universal safety, a verified model, production readiness, or freedom from every distributed race. Existing formal claims cover only a bounded model and its assumptions.</p></div>
+          <div><h3>What this could establish</h3><p>Which evolving incident conditions benefit from ongoing supervision, where it makes things worse, and which coordination mechanisms matter.</p></div>
+          <div><h3>What it cannot establish</h3><p>Universal safety, a verified model, hard real-time guarantees, or readiness for safety-critical control. Existing formal claims cover only a bounded model and its assumptions.</p></div>
         </div>
       </section>
 
@@ -467,8 +471,8 @@
           <p class="lead">A reproducible comparison, a small reference example, and guidance teams can challenge and adapt.</p>
         </div>
         <div class="roadmap">
-          <article class="phase"><h3>Frame</h3><p>Agree the protocol, meaningful outcomes, scenarios, and resource budget before expanding the code.</p></article>
-          <article class="phase"><h3>Compare</h3><p>Build the minimum experiment, freeze the evaluation, and run all strategies under the same controls.</p></article>
+          <article class="phase"><h3>Frame</h3><p>Define a short evolving incident, goals, response deadlines, and the supervisory timing and feedback rules.</p></article>
+          <article class="phase"><h3>Compare</h3><p>Exercise the mechanism with scripted components, then freeze and compare model-driven architectures under the same controls.</p></article>
           <article class="phase"><h3>Explain</h3><p>Publish trade-offs, failure modes, and limitations, including results that favor simpler approaches.</p></article>
         </div>
         <div class="callout"><p><strong>The stopping point:</strong> answer the research questions. No generic connectors, multi-tenancy, model marketplace, or production deployment is needed to complete this study.</p></div>
@@ -477,11 +481,11 @@
       <section class="chapter" id="discuss" aria-labelledby="discuss-title">
         <div class="closing">
           <span class="label">07 / The conversation to have</span>
-          <h2 id="discuss-title">Bring a decision worth studying.<br>Not a platform requirement.</h2>
+          <h2 id="discuss-title">Bring a situation that evolves.<br>Not a platform requirement.</h2>
           <p class="lead">The useful next step is to challenge the hypothesis and choose realistic, bounded scenarios. We are inviting scrutiny, not asking anyone to trust an unproven system.</p>
           <div class="grid three discussion">
-            <article><h3>With engineering teams</h3><p>Where could our assumptions fail? Help define the evidence, handoff behavior, and a comparison that would convince a skeptic.</p></article>
-            <article><h3>With customers</h3><p>Where does waiting for a decision cost time, but acting too quickly carries consequences? Discuss a synthetic version and what a useful outcome would mean.</p></article>
+            <article><h3>With engineering teams</h3><p>How should review timing, stale guidance, and feedback application work? Help define a comparison that can expose harmful supervision.</p></article>
+            <article><h3>With customers</h3><p>Where must a system keep responding, yet occasionally reconsider its direction? Discuss a synthetic version and the consequences of late or wrong advice.</p></article>
             <article><h3>With the community</h3><p>Can you reproduce, challenge, or improve the comparison? Substitute models and publish where the approach does not work.</p></article>
           </div>
           <div class="actions">
