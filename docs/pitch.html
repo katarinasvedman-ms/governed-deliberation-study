@@ -112,7 +112,7 @@
     .thesis { border: 1px solid var(--cp-border); border-top: 4px solid var(--cp-accent); border-radius: 16px; padding: 32px; background: var(--cp-surface); }
     .thesis blockquote { margin: 0 0 24px; font-size: 28px; letter-spacing: -0.025em; line-height: 1.3; }
     .thesis p { font-size: 16px; }
-    .status { border-top: 1px solid var(--cp-border); padding-top: 20px; margin-top: 24px; }
+    .status { border: 1px solid var(--cp-border); border-left: 4px solid var(--cp-accent); border-radius: 10px; padding: 20px; margin-top: 24px; background: var(--cp-accent-soft); }
     .status strong { display: block; font-size: 14px; }
     .status p { font-size: 14px; color: var(--cp-text-muted); margin: 4px 0 0; }
     .concept-art { margin: 0 0 32px; overflow: hidden; border: 1px solid var(--cp-border); border-radius: 16px; background: var(--cp-surface); break-inside: avoid; }
@@ -270,8 +270,10 @@
           <blockquote>Keep responding.<br>Reconsider the direction.</blockquote>
           <p class="muted">Governance may be more than a restriction on autonomy. It may be what makes faster, specialized intelligence usable.</p>
           <div class="status">
-            <strong>Proposal, not a performance claim.</strong>
-            <p>Framework feasibility demonstrated with scripted components. Research contracts implemented and under review. Comparative experiments have not yet run. <a href="#foundation">See current progress</a> or <a href="https://github.com/katarinasvedman-ms/governed-deliberation-study">explore the repository</a>.</p>
+            <strong>Status / September 17, 2026</strong>
+            <p>Scripted framework feasibility and reviewed research contracts are implemented. The evolving-incident runner and live-model comparisons are not built; there are no comparative model results.</p>
+            <p>The scenarios and figures on this page illustrate the design, not recorded experimental outcomes. Feasibility probes establish bounded mechanisms, not model effectiveness, production readiness, or hard real-time safety. Vendor claims are not study findings.</p>
+            <p><a href="#foundation">See current progress</a> or <a href="https://github.com/katarinasvedman-ms/governed-deliberation-study">explore the repository</a>.</p>
           </div>
         </aside>
       </section>
@@ -342,11 +344,11 @@
             </dl>
           </article>
         </div>
-        <p class="callout"><strong>Working hypothesis:</strong> ongoing supervision can improve some incident trajectories, while asynchronous cooperation can preserve responsiveness better than blocking review. Both benefits must be demonstrated, not assumed.</p>
+        <p class="callout"><strong>Working hypothesis:</strong> ongoing supervision can improve some incident trajectories, while asynchronous cooperation can preserve responsiveness better than blocking review.</p>
         <details>
           <summary>How is this different from routing to a bigger model?</summary>
           <p class="muted">Selective routing chooses which model handles a request. Here, the fast actor keeps working while a slower supervisor reflects on the developing situation and influences later decisions. Routing remains a secondary comparison, not the primary study.</p>
-          <p class="muted">Feedback can change a working plan without retraining model weights. Ongoing review does not imply hard real-time guarantees, and a slow supervisor cannot be the sole safeguard against an immediate harmful action.</p>
+          <p class="muted">Feedback can change a working plan without retraining model weights. Immediate execution constraints remain independent of slower review.</p>
         </details>
       </section>
 
@@ -357,7 +359,7 @@
           <p class="lead">Payments API errors rise. The actor investigates. As evidence accumulates, can a supervisor improve the direction without becoming a bottleneck?</p>
         </div>
         <div class="scenario">
-          <div class="scenario-intro"><p><strong>Illustrative scenarios, not recorded results.</strong> These describe behavior we intend to evaluate in a synthetic environment. No model or operational tool runs on this page.</p></div>
+          <div class="scenario-intro"><p><strong>Explore the design:</strong> useful correction, delayed guidance, and a mistaken supervisor.</p></div>
           <div class="scenario-tabs" role="tablist" aria-label="Illustrative incident scenarios">
             <button class="scenario-tab" id="tab-familiar" role="tab" aria-selected="true" aria-controls="panel-familiar" tabindex="0" type="button">Useful correction</button>
             <button class="scenario-tab" id="tab-changing" role="tab" aria-selected="false" aria-controls="panel-changing" tabindex="-1" type="button">Guidance arrives late</button>
@@ -426,6 +428,7 @@
           <article class="card strategy selected"><span class="label">Research candidate</span><h3>Ongoing supervision</h3><p>The actor continues permitted work while the supervisor reviews. Applicable feedback can influence subsequent actions.</p></article>
         </div>
         <div class="constant"><strong>Same actor. Same controls. Matched external events.</strong><p>Match supervisor configuration and review triggers across supervised variants. No hidden answers or future evidence; record what each component actually observed.</p></div>
+        <p class="callout"><strong>Two kinds of evidence:</strong> scripted logical ticks establish coordination mechanics under declared durations. Real-model responsiveness and cost require measured latencies and an independently scheduled environment; the live timing methodology remains open.</p>
         <div class="questions" aria-label="Research questions and measurements">
           <article class="question"><span class="label">RQ1</span><h3>Where does supervision improve the trajectory?</h3><p>Measure goal progress, appropriate outcomes, unnecessary actions, and persistence in mistakes by predefined case category.</p></article>
           <article class="question"><span class="label">RQ2</span><h3>What responsiveness and resource trade-off does it introduce?</h3><p>Compare event-to-action latency, deadlines met, review lag, total inference cost, and approval demand.</p></article>
@@ -452,7 +455,7 @@
         <div class="section-head">
           <span class="label">05 / Build on evidence, not on claims</span>
           <h2 id="foundation-title">From research framing<br>to executable foundations.</h2>
-          <p class="lead">Status as of September 16, 2026: feasibility established for a bounded scripted arrangement; contract implementation is undergoing independent review. No comparative model results yet.</p>
+          <p class="lead">The work builds on an existing controlled execution boundary, with scripted feasibility and a reviewed contract implementation.</p>
         </div>
         <div class="grid two">
           <article class="card">
@@ -462,28 +465,25 @@
             <p>These give us a place to compare cooperative architectures without changing their authority.</p>
           </article>
           <article class="card">
-            <span class="label">T0 / Feasibility demonstrated</span>
+            <span class="label">Scripted feasibility</span>
             <h3>Parallel work and interruption</h3>
             <p>Isolated Agent Framework invocations let a scripted actor progress while supervision remains pending. Accepted guidance invalidates pending decisions, and obsolete outputs cannot dispatch actions even when cancellation is ignored.</p>
-            <p>The tested shared fan-out graph introduced a superstep barrier. One coordinator owns cross-invocation ordering and dispatch eligibility; this is not a live-provider guarantee.</p>
+            <p>The tested shared fan-out graph introduced a superstep barrier. The selected arrangement uses isolated invocations and one coordinator for cross-invocation ordering and dispatch eligibility.</p>
           </article>
           <article class="card">
-            <span class="label">T1 / Implemented, under review</span>
+            <span class="label">Implemented and reviewed</span>
             <h3>Contracts for evidence and memory</h3>
-            <p>Research contracts cover observations, provisional beliefs, versioned shared memory, reconsideration triggers, and event records. Serialization and validation are implemented; conformance fixes and independent review are in progress.</p>
-            <p>Fixture-based contract validation does not yet implement the runtime memory coordinator, scheduler, or experiment runner.</p>
+            <p>Research contracts cover observations, provisional beliefs, versioned shared memory, reconsideration triggers, and event records. Strict serialization and fixture-based conformance validation are implemented and reviewed.</p>
+            <p>These contracts define the inputs, transitions, and evidence the future runtime must preserve.</p>
           </article>
           <article class="card">
             <span class="label">Next / Not yet implemented</span>
             <h3>The evolving-incident experiment</h3>
             <p>Build the independent clock, timed evidence delivery, runtime supervision, and a runner that records actual trajectories and outcomes across the three architectures.</p>
-            <p>The inherited UI remains a mock. Scripted feasibility evidence is not evidence that supervision improves model performance. Live-model evaluation comes later.</p>
+            <p>The next stage connects the existing contracts into an evolving-incident experiment, before later model-driven evaluation.</p>
           </article>
         </div>
-        <div class="boundary">
-          <div><h3>What this could establish</h3><p>Which evolving incident conditions benefit from ongoing supervision, where it makes things worse, and which coordination mechanisms matter.</p></div>
-          <div><h3>What it cannot establish</h3><p>Universal safety, a verified model, hard real-time guarantees, or readiness for safety-critical control. Existing formal claims cover only a bounded model and its assumptions.</p></div>
-        </div>
+        <div class="callout"><p><strong>The intended outcome:</strong> identify which evolving incident conditions benefit from ongoing supervision, where it makes things worse, and which coordination mechanisms matter. The inherited formal evidence remains limited to its bounded model and stated assumptions.</p></div>
       </section>
 
       <section class="chapter" id="outcome" aria-labelledby="outcome-title">
@@ -517,12 +517,26 @@
         </div>
       </section>
 
+      <section class="sources" id="related-work" aria-labelledby="related-work-title">
+        <span class="label">Related work</span>
+        <h2 id="related-work-title">A specific question within an established field.</h2>
+        <p>Fast/slow selection is well studied, and prior work reports concurrent reasoning and action. AgileThinker and DPT-Agent are close architectural precedents; this study focuses on incident diagnostics with independent execution authority, versioned provisional beliefs, and explicit handling of stale advice.</p>
+        <ul class="source-list">
+          <li><a href="https://arxiv.org/abs/2511.04898">AgileThinker</a><p>Concurrent planning and reaction, including use of partial planner reasoning while the environment evolves.</p></li>
+          <li><a href="https://arxiv.org/abs/2502.11882">DPT-Agent</a><p>Asynchronous belief and guideline updates informing code-as-policy and an acting finite-state machine.</p></li>
+          <li><a href="https://arxiv.org/abs/2305.17390">SwiftSage</a><p>Selective deliberation and within-task reflection alongside a smaller fast action model.</p></li>
+          <li><a href="https://www.nature.com/articles/s44387-025-00027-5">SOFAI</a><p>A metacognitive module coordinates fast and slow solvers. Its conceptual precursor also discusses governance of deliberation.</p></li>
+          <li><a href="https://arxiv.org/abs/2303.11366">Reflexion</a><p>Verbal feedback retained across trials motivates considering a compute-matched self-reflection comparison.</p></li>
+          <li><a href="https://arxiv.org/abs/2312.06942">AI control / trusted monitoring</a><p>Separating useful model output from acceptance and oversight under a different, intentional-subversion threat model.</p></li>
+        </ul>
+        <p><a href="related-work.md">Read the source-by-source comparison</a> and <a href="open-design-questions.md">undecided future comparisons</a>. The focus here is a bounded coordination contract and evaluation setting, not a claim to have invented concurrent agents or shared-memory reflection.</p>
+      </section>
       <section class="sources" id="sources" aria-labelledby="sources-title">
-        <span class="label">Sources and boundaries</span>
-        <h2 id="sources-title">Inspiration is not validation.</h2>
+        <span class="label">Original inspirations</span>
+        <h2 id="sources-title">Conversation, action, and structured decisions.</h2>
         <ul class="source-list">
           <li><a href="https://arxiv.org/abs/2410.08328">Agents Thinking Fast and Slow: A Talker-Reasoner Architecture</a><p>The Talker–Reasoner architecture separates conversation from deliberative work. We investigate separating responsive action from ongoing reflection, with feedback that can revise the actor’s understanding and interrupt its direction.</p></li>
-          <li><a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">TypeSafe: Introducing System One Models &amp; Jev</a><p>A vendor description of specialized structured decisions. Performance claims are not independently validated by this study.</p></li>
+          <li><a href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">TypeSafe: Introducing System One Models &amp; Jev</a><p>A vendor description of specialized structured decisions and claimed calibration; a possible future model comparison.</p></li>
           <li><a href="https://docs.typesafe.ai/introduction.md">TypeSafe: typed questions and structured decisions</a><p>Schema-conforming output does not guarantee a correct decision. Jev remains an optional candidate.</p></li>
           <li><a href="https://github.com/katarinasvedman-ms/agentic-harness-validation/tree/ebe882a7b9cb30544292c03c166f466e46a5eee1">Original governance foundation and recorded baseline</a><p>Source history is retained. The original implementation and bounded verification assumptions remain distinct from planned research.</p></li>
         </ul>
@@ -532,7 +546,7 @@
   <footer>
     <div class="shell">
       <span>Governed Deliberation Study / Discussion edition / September 2026</span>
-      <span>Exploratory research, not a product announcement or vendor endorsement.</span>
+      <span>Fast action. Ongoing reflection. Fixed execution controls.</span>
     </div>
   </footer>
   <script>

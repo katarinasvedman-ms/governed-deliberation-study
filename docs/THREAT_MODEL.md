@@ -5,7 +5,7 @@
 | Status | Draft |
 | Version | 0.2 |
 | Date | 2026-08-12 |
-| Related documents | [PRD](PRD.md), [FRD](FRD.md), [Verification Specification](VERIFICATION_SPEC.md) |
+| Related documents | [PRD](archive/PRD.md), [FRD](archive/FRD.md), [Verification Specification](VERIFICATION_SPEC.md) |
 
 ## 1. Purpose and scope
 

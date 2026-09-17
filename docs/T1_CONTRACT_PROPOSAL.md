@@ -2,7 +2,7 @@
 
 | Field | Value |
 | --- | --- |
-| Status | Approved baseline for the first scripted T1 build; T2-T5 remain paused |
+| Status | Approved serialized contract reference; implementation scope is recorded in [governance](governance/process.md) |
 | Date | 2026-09-16 |
 | Candidate ID | T1-WM-1-candidate-3 |
 | Approved wire version | `1.0-candidate.3`; candidate literal preserved for traceability |
@@ -12,29 +12,14 @@
 
 **This is the single authoritative T1 contract baseline.** Its complete
 shapes below replace the earlier candidate shapes; readers must not compose an
-old schema with amendment prose. Approval authorizes only the bounded T1
-contracts, serialization, validation, research-event record, and focused
-contract fixtures. It does not authorize T2 scheduling, T3 coordination,
-live calls, deployment, or operational-plan schema changes.
+old schema with amendment prose. The [process record](governance/process.md)
+preserves the implementation authorization and its exclusions.
 
 ## 1. Accepted decisions
 
-| Decision | Status and meaning |
-| --- | --- |
-| C1 | Accepted: low/medium/high uncertainty is uncalibrated assertion, not correctness or authority. The disposition vocabulary below extends the earlier reasons to belief corrections. |
-| C2 | Accepted: Reports may have empty citations structurally. Claims and actionable memory operations require observation citations. Provenance is not truth; support is evaluated separately. |
-| C3 | Accepted: the seven operation/target pairs in section 3. |
-| C5 | Accepted: count started actor turns and recognizable current Query attempts; obsolete outputs create no new attempts. |
-| C9 | Accepted: recorded investigative direction is the latest dispatched diagnostic, separate from recommended direction. |
-| M1 | Accepted: supervisor-only semantic memory writes in the first study. The treatment is supervision plus within-incident memory adaptation, not memory's isolated benefit. |
-| M2 | Accepted: exact-base whole-update rejection without merge, rebase, or extra-review retry. |
-| M4 | Accepted: persistent within-incident beliefs and separately expiring direction. |
-| M5 | Accepted: atomic memory publication and decision-generation invalidation; best-effort cancellation, mandatory obsolete suppression. |
-| C4 + M6 | Accepted: deterministic equality, normalization, whole-successor validation, and no-op rules in section 5. |
-| C7 + M7 | Accepted: latest-trigger acknowledgment, expiry/multiple-interrupt handling, and complete trigger/disposition contracts in section 6. |
-| M3 | Accepted: deterministic conflict lifecycle in section 5. |
-| C8 + M8 | Accepted: this consolidated wire contract, version declarations, and the engineering limits in section 10. |
-| C6 | **Deferred:** evidence equivalence and case rubrics. Do not invent them. |
+The accepted decision table and deferred case mappings are preserved in the
+[contract decision record](governance/process.md#contract-decision-record).
+The technical definitions below are unchanged.
 
 Use the same actor configuration across architectures and the same supervisor,
 memory rules, and review triggers across supervised variants. One coordinator

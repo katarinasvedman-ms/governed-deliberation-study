@@ -12,7 +12,7 @@ below remain in force; acceptance does not establish live-provider cancellation
 or concurrency support. Only the [T1 contract proposal](T1_CONTRACT_PROPOSAL.md)
 is authorized next, as documentation for review, not contract implementation.
 
-Implemented only the authorized T0 gate from [COPILOT_HANDOFF.md](COPILOT_HANDOFF.md)
+Implemented only the authorized T0 gate from [COPILOT_HANDOFF.md](governance/COPILOT_HANDOFF.md)
 against [EXPERIMENT_SPEC.md v1.0](EXPERIMENT_SPEC.md), section 3.4.
 This is executable, credential-free mechanism evidence, not an experiment
 runner, diagnosis evaluator, live-agent result, or comparative speedup.

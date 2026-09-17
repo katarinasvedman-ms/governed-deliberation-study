@@ -98,7 +98,7 @@ Run `pwsh .\scripts\rehearse-local-demo.ps1` and narrate its checklist:
 6. **Audit and limits (2 minutes).** The API returns `integrityValid=true`;
    explain that the local chain, identities, policy, and approval stores are
    in-memory. Open
-   [the architecture source](architecture/governed-agent-runtime.excalidraw)
+   [the architecture source](../architecture/governed-agent-runtime.excalidraw)
    in `https://aka.ms/excalidraw` if a deeper boundary discussion is useful.
 
 Useful live reads:

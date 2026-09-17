@@ -2,7 +2,7 @@
 
 | Field | Value |
 | --- | --- |
-| Status | v1.0 + WM-1 contract baseline approved; T1-only implementation authorized |
+| Design reference | v1.0 plus the consolidated working-memory contract baseline |
 | Date | 2026-09-16 |
 | Scope | One evolving synthetic incident, ending at diagnosis and a justified next step |
 | Purpose | Remove research-design ambiguity before a later GitHub Copilot implementation handoff |
@@ -13,12 +13,9 @@ implemented by this document. The scripted defaults below are design parameters,
 not measured model performance or evidence that supervision helps. Live-model
 methodology and the open handoff items in section 11 remain separate.
 
-**Design consolidation and approval, 2026-09-16:** [section 12](#12-approved-amendment-within-incident-working-memory)
-and the [approved contract baseline](T1_CONTRACT_PROPOSAL.md) integrate WM-1
-with sections 1-11. `T1-WM-1-candidate-3` / `1.0-candidate.3` is approved for
-the first scripted T1 build with its candidate literals preserved. T1 contracts,
-serialization, validation, research events and focused fixtures are authorized.
-T2-T5, live calls, deployment and full experiment execution remain unauthorized.
+See [the process record](governance/process.md#specification-consolidation-record)
+for approval history and implementation scope. The technical baseline and
+[contract definitions](T1_CONTRACT_PROPOSAL.md) are unchanged.
 
 ## 1. Scope and design baseline
 
@@ -76,6 +73,15 @@ external event schedules, but never fabricate identical histories after
 different diagnostic choices.
 
 ## 3. Clock and scheduling
+
+Scripted runs use logical ticks to establish mechanics such as staleness
+binding, obsolete-result suppression, and execution-control behavior. They
+can compare schedules under declared duration assumptions, but cannot establish
+the real-model responsiveness or cost advantage asked about in the second
+research question. Live comparisons require measured inference/coordination
+latencies and an independently scheduled environment; a tick-to-time conversion
+alone is not empirical evidence. The live-model methodology remains undecided.
+This distinction does not change any scripted duration or ordering rule below.
 
 ### 3.1 Initial scripted clock
 
@@ -202,7 +208,7 @@ in this repository's pinned version.
 
 ## 4. Evidence and world state
 
-The initial development example uses the [draft Payments evidence sequence](../README.md#draft-evidence-sequence-payments-investigation):
+The initial development example uses the [draft Payments evidence sequence](governance/research-history.md#draft-evidence-sequence-payments-investigation):
 
 | ID | Available from | Delivery and content |
 | --- | --- | --- |
@@ -520,26 +526,14 @@ evaluation cases, bypass controls, or turn the study into a platform.
 
 ## 12. Approved amendment: within-incident working memory
 
-| Field | Value |
-| --- | --- |
-| Amendment ID | WM-1 |
-| Status | Complete contract baseline approved; T1-only implementation authorized |
-| Date | 2026-09-16 |
-| Baseline retained | Reviewed v1.0, sections 1-11 above |
-| Contract counterpart | [Approved T1 contract baseline with preserved candidate ID](T1_CONTRACT_PROPOSAL.md) |
-| Contract candidate revision | `T1-WM-1-candidate-3` / `1.0-candidate.3`; approved literals preserved |
-| Accepted | C1-C5 and C7-C9; M1-M8; including C4/M6, C7/M7, M3, C8/M8 and listed engineering limits |
-| Authorized implementation | T1 bounded contracts, serialization, validation, research-event record and focused fixtures only |
-| Deferred | C6 evidence equivalence and case rubrics |
+The [amendment history](governance/process.md#working-memory-amendment-history)
+records the version, approval, and implementation scope. The
+[contract reference](T1_CONTRACT_PROPOSAL.md) defines its serialized representation.
 
-The user's clarification is that supervision proposes changes to **shared
-working memory**, not merely transient messages. Accepted changes may shape
+Supervision proposes changes to **shared working memory**, not merely transient
+messages. Accepted changes may shape
 several subsequent actor turns in the same incident. Interruption makes an
 accepted actionable change effective promptly; it is not the memory itself.
-The status table above records the user's final T1 contract approval. Accepted
-choices are requirements of the consolidated design. This approval authorizes
-T1 only and is not permission to implement the T2 scheduler, T3 coordinator,
-T4-T5, live models, deployment, or a full experiment runner.
 
 Accepted C1-C3 retain uncalibrated low/medium/high uncertainty, allow empty
 Report citations structurally while requiring observation citations for claims
@@ -794,19 +788,9 @@ and later validation, not an assumption of unchanged results.
 
 ### 12.8 Decision status and boundedness
 
-| ID | Status and scope |
-| --- | --- |
-| M1 | Accepted: supervisor-only semantic writes and combined-treatment interpretation. |
-| M2 | Accepted: exact-base whole-update rejection without merge, rebase, or extra-review retry. |
-| M3 | Accepted: deterministic conflict lifecycle in section 12.11. |
-| M4 | Accepted: within-incident belief persistence and separately expiring direction. |
-| M5 | Accepted: atomic publication and decision invalidation; cancellation best-effort, obsolete suppression mandatory. |
-| M6 | With C4, accepted: equality, normalization, no-ops and rejection in section 12.10. |
-| M7 | With C7, accepted: latest actionable trigger and acknowledgment in section 12.12. |
-| M8 | With C8, accepted: the consolidated wire candidate, version declarations, and listed engineering limits. |
+The approval table and deferred evidence-equivalence decision are preserved in
+[the working-memory decision record](governance/process.md#working-memory-decision-record).
 
-C1-C5, C7-C9 and M1-M8 are accepted as described above. C6 remains
-deferred; do not invent evidence equivalence or case rubrics.
 Preserve the current episode, turn, diagnostic and review budgets; one eligible
 actor turn and one active review; fixed authority; isolated invocations; and
 the absence of live-provider claims. Memory operations do not execute tools.

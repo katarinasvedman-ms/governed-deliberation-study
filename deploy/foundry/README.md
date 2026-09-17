@@ -2,7 +2,7 @@
 
 The credential-free, manually gated GitHub Actions runbook and required `demo`
 environment variables are documented in
-[`docs/RELEASE_DEPLOYMENT.md`](../../docs/RELEASE_DEPLOYMENT.md).
+[`docs/archive/RELEASE_DEPLOYMENT.md`](../../docs/archive/RELEASE_DEPLOYMENT.md).
 
 This is a credential-free container scaffold for Invocations 2.0.0. The
 compatibility image in `deploy/hosted-copilot` remains the offline Linux smoke
