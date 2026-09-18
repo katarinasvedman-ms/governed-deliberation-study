@@ -2,8 +2,8 @@
 
 This page holds agent-facing approvals and scope boundaries; it is not the research overview.
 The following process record is preserved from the contributor guidance. The repository now
-contains the committed feasibility and contract implementation at `30417d9`; the scope stop
-below remains in force and is not changed by the documentation restructure.
+contains the committed feasibility and contract implementation at `30417d9` and the approved
+ER-1 documentation checkpoint at `bec4423`.
 
 ## Current preparation phase
 
@@ -19,7 +19,14 @@ diagnostics return current records or legitimate empty projections; tick-12
 dependency evidence availability remains silent; the ambiguous CPU-symptom and
 tick-10 recovery variants are fixed; and Q-ER1-1 keeps query-window and
 collection metadata harness-owned under the existing contracts with its stated
-safeguards. This is a documentation baseline only. T2 remains unauthorized.
+safeguards. Its initial approval was documentation-only.
+
+Later on 2026-09-18, the user authorized T2 implementation only against
+`ER1-fixture-1` and the reconciled experiment specification. The authorization
+includes the deterministic scheduler, evolving evidence fixture, focused tests,
+and required validation. It does not authorize T3-T5, serialized contract or
+schema changes, scenario-data changes, live calls, deployment, or
+research-design additions. Stop after T2 for independent review.
 
 Use [COPILOT_HANDOFF.md](COPILOT_HANDOFF.md) to scope later authorized
 implementation tasks. Start with its framework feasibility gate; do not execute
@@ -33,13 +40,13 @@ decision generations, interruption, and dispatch eligibility. Do not use the
 tested shared fan-out graph for the asynchronous treatment. This acceptance
 does not establish live-provider cancellation or concurrency support.
 
-T1-only implementation is authorized: bounded research contracts,
+The earlier T1-only gate authorized bounded research contracts,
 serialization, validation, research-event records, working-memory revisions,
 reconsideration triggers, reassertion lineage, consumed-revision provenance,
-and focused contract fixtures. Keep this metadata separate from operational
-plan schemas. **Stop before T2.** The scheduler, runtime coordinator, full
-runner, T2-T5, live calls, deployment, and governance behavior changes are not
-authorized.
+and focused contract fixtures. That historical stop-before-T2 gate was
+superseded only by the T2 authorization above. Keep research metadata separate
+from operational plan schemas; the runtime coordinator, full runner, T3-T5,
+live calls, deployment, and governance behavior changes remain unauthorized.
 
 
 ## Implementation tasks and gates
@@ -106,7 +113,8 @@ and the [approved contract baseline](../T1_CONTRACT_PROPOSAL.md) integrate WM-1
 with sections 1-11. `T1-WM-1-candidate-3` / `1.0-candidate.3` is approved for
 the first scripted T1 build with its candidate literals preserved. T1 contracts,
 serialization, validation, research events and focused fixtures are authorized.
-T2-T5, live calls, deployment and full experiment execution remain unauthorized.
+At that decision point, T2-T5, live calls, deployment and full experiment
+execution were unauthorized; the later T2-only authorization is recorded above.
 
 **Evidence-retrieval consolidation and approval, 2026-09-18:**
 [ER-1](../EXPERIMENT_SPEC.md#13-approved-amendment-realistic-diagnostic-retrieval)

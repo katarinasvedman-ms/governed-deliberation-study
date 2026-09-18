@@ -6,7 +6,7 @@
 | Date | 2026-09-18 |
 | Status | Approved synthetic fixture specification |
 | Applies to | [EXPERIMENT_SPEC.md section 13](EXPERIMENT_SPEC.md#13-approved-amendment-realistic-diagnostic-retrieval) |
-| Implementation effect | Documentation baseline only; T2 remains unauthorized |
+| Implementation effect | Authoritative baseline for the T2-only implementation authorized on 2026-09-18 |
 
 ## 1. Requirement boundary
 
@@ -30,8 +30,9 @@ The following are **existing approved requirements**, not new decisions:
   live-model methodology remain deferred.
 
 The values below are approved synthetic fixture requirements. They are not
-empirical observations or claims about a production system, and their approval
-does not authorize T2 implementation.
+empirical observations or claims about a production system. Their initial
+approval was documentation-only; a later 2026-09-18 decision authorized T2
+implementation against this exact fixture revision.
 
 ## 2. Time, projection, and delivery rules
 
@@ -581,8 +582,8 @@ The active specification and handoff apply the following reconciliation:
 11. **Add ambiguous-variant acceptance:** E2 is not pushed; `PL8` is obtainable
     from tick 8, E1A has the stated follow-ups, and no evaluator-only explanation
     enters model-visible data.
-12. **Handoff T2:** reference this approved fixture revision while retaining a
-    separate T2 authorization gate and all existing budgets.
+12. **Handoff T2:** reference this approved fixture revision and the later
+    T2-only authorization while retaining all existing budgets and later-task gates.
 
 No change is made to evidence equivalence, evaluation weights, held-out
 scenario design, live-model timing/cost methodology, turn/review/diagnostic
@@ -600,6 +601,9 @@ Approved on 2026-09-18:
 4. Q-ER1-1's existing-contract fixture-metadata resolution and safeguards.
 5. The documentation reconciliation in section 10.
 
-This approval does not authorize T2, code, schema, contract, test, or scenario
-data changes. Evidence equivalence beyond the stated E3 route, case rubrics,
-scoring weights, held-out design, and live-model methodology remain deferred.
+The fixture approval itself did not authorize implementation. Later on
+2026-09-18, the user authorized T2 code and focused tests against
+`ER1-fixture-1` without authorizing serialized contract/schema changes,
+scenario-data changes, T3-T5, live calls, deployment, or research-design
+changes. Evidence equivalence beyond the stated E3 route, case rubrics, scoring
+weights, held-out design, and live-model methodology remain deferred.

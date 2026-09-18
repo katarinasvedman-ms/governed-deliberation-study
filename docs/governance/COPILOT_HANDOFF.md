@@ -2,8 +2,8 @@
 
 | Field | Value |
 | --- | --- |
-| Status | T1 contract baseline approved and T1-only implementation authorized; stop before T2 |
-| Date | 2026-09-16 |
+| Status | T2 implementation authorized against `ER1-fixture-1`; stop before T3 |
+| Date | 2026-09-18 |
 | Design baseline | [EXPERIMENT_SPEC.md v1.0](../EXPERIMENT_SPEC.md) |
 | Starting repository revision | `2612294a32b39f611bf8b3b0aab84577fb79f7e7` |
 | First-build scope | Credential-free, scripted mechanism experiment; diagnosis and direction only |
@@ -201,12 +201,13 @@ runner or proceed to T2 without separate authorization.
 
 ### T2. Implement deterministic time and evolving evidence
 
-**Approved design; implementation gate closed:** [ER-1](../EXPERIMENT_SPEC.md#13-approved-amendment-realistic-diagnostic-retrieval)
+**Approved design; T2-only implementation authorized on 2026-09-18:** [ER-1](../EXPERIMENT_SPEC.md#13-approved-amendment-realistic-diagnostic-retrieval)
 and the [ER-1 fixture specification](../ER1_FIXTURE_PROPOSAL.md) define the
 authoritative synthetic payloads, neutral evidence IDs, time/provenance mapping,
 variant behavior, recovery responses, Q-ER1-1 safeguards, and A03/timeline
-reconciliation. This approval is documentation-only. Obtain separate T2
-authorization before implementation.
+reconciliation. Implement only this T2 scope; stop before T3-T5, live calls,
+deployment, serialized contract/schema changes, scenario-data changes, or
+research-design additions.
 
 **Build:** a small discrete-event scheduler implementing specification section 3,
 including its exclusive horizon and same-tick ordering. Advance to scheduled

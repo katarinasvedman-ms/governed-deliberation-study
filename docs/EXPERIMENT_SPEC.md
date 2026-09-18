@@ -987,15 +987,15 @@ atomic invalidation are approved for T1 contract-level implementation.
 | --- | --- |
 | Amendment ID | ER-1 |
 | Date | 2026-09-18 |
-| Status | Approved documentation baseline; T2 implementation not authorized |
+| Status | Approved authoritative baseline; T2-only implementation authorized 2026-09-18 |
 | Scope | Development diagnostic retrieval, notification delivery, and a recovery variation |
-| Implementation | No code, serialized contracts, scenario data, or tests changed |
+| Implementation | T2 code and focused tests authorized; contracts and scenario data unchanged |
 
 The authoritative [ER-1 fixture specification](ER1_FIXTURE_PROPOSAL.md)
 supplies the approved synthetic payloads, neutral evidence IDs,
 timing/provenance mappings, variant differences, recovery responses, and DTO
-compatibility. Approval establishes the documentation baseline only and does
-not authorize T2.
+compatibility. The initial fixture approval established the documentation
+baseline only; a later 2026-09-18 decision authorized T2 against that baseline.
 
 ### 13.1 Purpose and baseline interaction
 
@@ -1153,9 +1153,10 @@ Acceptance examples A01-A05 and A20-A21 demonstrate:
   fault evidence, original timestamps, and frozen in-flight snapshots.
 - Polling consumes existing budgets; a competent actor can succeed without help.
 
-These are mechanism requirements, not implemented tests or new success
-thresholds. Section 7 re-derives the straightforward report times; those times
-do not apply to the ambiguous or recovery variants.
+These are mechanism requirements, not new success thresholds. The authorized
+T2 implementation may encode focused deterministic acceptance tests for them.
+Section 7 re-derives the straightforward report times; those times do not apply
+to the ambiguous or recovery variants.
 
 ### 13.8 Change history and remaining boundary
 
@@ -1166,5 +1167,8 @@ existing-contract approach were approved later that day. Sections 4, 7, 8, 10,
 and the implementation handoff were reconciled to this baseline.
 
 Evidence equivalence beyond the stated E3 retrieval route, complete case rubrics,
-scoring weights, and held-out design remain deferred. This amendment does not
-authorize T2, live models, or changes to the current three-architecture comparison.
+scoring weights, and held-out design remain deferred. A later 2026-09-18
+decision authorized T2 implementation and focused tests against
+`ER1-fixture-1`; it did not authorize serialized contract/schema changes,
+scenario-data changes, T3-T5, live models, deployment, or changes to the
+current three-architecture comparison.
