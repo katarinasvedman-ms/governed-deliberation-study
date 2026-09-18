@@ -3,7 +3,8 @@
 This page holds agent-facing approvals and scope boundaries; it is not the research overview.
 The following process record is preserved from the contributor guidance. The repository now
 contains the committed feasibility and contract implementation at `30417d9` and the approved
-ER-1 documentation checkpoint at `bec4423`.
+ER-1 documentation checkpoint at `bec4423`, with the pushed T2 baseline at
+`3105d19`.
 
 ## Current preparation phase
 
@@ -24,9 +25,18 @@ safeguards. Its initial approval was documentation-only.
 Later on 2026-09-18, the user authorized T2 implementation only against
 `ER1-fixture-1` and the reconciled experiment specification. The authorization
 includes the deterministic scheduler, evolving evidence fixture, focused tests,
-and required validation. It does not authorize T3-T5, serialized contract or
-schema changes, scenario-data changes, live calls, deployment, or
-research-design additions. Stop after T2 for independent review.
+and required validation. T2 was committed and pushed as `3105d19`.
+
+After independent T2 review found no significant conformance issue, the user
+authorized T3 runtime supervision coordination only. That authorization covers
+the one coordinator for actor-only, blocking, and asynchronous supervision;
+isolated Agent Framework invocations; coordinator-owned memory and
+reconsideration; cancellation and obsolete-result suppression; governed
+diagnostic dispatch; bounded drain; and focused scripted integration tests. It
+does not authorize T4/T5, a full runner/evaluator, live models, deployment, new
+scenarios, or research-design additions. Independent review confirmed the T3
+conformance corrections on 2026-09-18 and authorized publishing the reviewed
+T3 checkpoint to `main`. Stop before T4.
 
 Use [COPILOT_HANDOFF.md](COPILOT_HANDOFF.md) to scope later authorized
 implementation tasks. Start with its framework feasibility gate; do not execute
@@ -44,9 +54,10 @@ The earlier T1-only gate authorized bounded research contracts,
 serialization, validation, research-event records, working-memory revisions,
 reconsideration triggers, reassertion lineage, consumed-revision provenance,
 and focused contract fixtures. That historical stop-before-T2 gate was
-superseded only by the T2 authorization above. Keep research metadata separate
-from operational plan schemas; the runtime coordinator, full runner, T3-T5,
-live calls, deployment, and governance behavior changes remain unauthorized.
+superseded by the later T2 and T3 authorizations above. Keep research metadata
+separate from operational plan schemas; the full runner, independent evaluator,
+T4-T5, live calls, deployment, and governance behavior changes remain
+unauthorized.
 
 
 ## Implementation tasks and gates

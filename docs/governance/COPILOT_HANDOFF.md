@@ -2,10 +2,10 @@
 
 | Field | Value |
 | --- | --- |
-| Status | T2 implementation authorized against `ER1-fixture-1`; stop before T3 |
+| Status | T3 reviewed and approved for checkpoint publication; stop before T4 |
 | Date | 2026-09-18 |
 | Design baseline | [EXPERIMENT_SPEC.md v1.0](../EXPERIMENT_SPEC.md) |
-| Starting repository revision | `2612294a32b39f611bf8b3b0aab84577fb79f7e7` |
+| Starting repository revision | `3105d190d8b5739492efd0fa1f3c3745209c3753` |
 | First-build scope | Credential-free, scripted mechanism experiment; diagnosis and direction only |
 | Intended implementer | GitHub Copilot, after explicit task authorization |
 
@@ -233,6 +233,13 @@ expectations by default.
 
 ### T3. Wire supervision and interrupts
 
+**Authorization/status (2026-09-18):** T3 only is authorized against the pushed
+T2 baseline. The scripted coordinator, isolated Agent Framework invocation
+adapter, working-memory publication, governed dispatch boundary, and focused
+integration coverage passed independent review after the documented
+conformance corrections. Publishing this reviewed T3 checkpoint to `main` is
+authorized. Do not begin T4/T5 without a later decision.
+
 **Build:** one workflow owner, the three comparison modes, review checkpoints,
 snapshot capture, guidance validation, epoch/expiry checks, and duplicate rules.
 
@@ -256,6 +263,13 @@ remain excluded until their concurrent-draining cap and failure policy are
 explicitly decided.
 
 ### T4. Add a bounded entry point and independent evaluator
+
+**Pending documentation-only milestone proposal:** the
+[straightforward ER-1 scripted smoke run](../SCRIPTED_SMOKE_RUN_PROPOSAL.md)
+defines a six-episode, three-architecture mechanism smoke test with actual
+candidate-3 records, a readable timeline, and a mechanical repeated-run check.
+It is not authorization to implement T4/T5 and does not define the deferred C6
+evaluator rubric.
 
 **Build:** one documented local command or entry point that runs the scripted
 case across the three architectures. Use the same actor configuration, events,

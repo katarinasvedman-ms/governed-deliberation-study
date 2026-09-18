@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\GovernedAgent.Research\GovernedAgent.Research.csproj" />
     <ProjectReference Include="..\..\src\GovernedAgent.Host\GovernedAgent.Host.csproj" />
     <ProjectReference Include="..\..\src\GovernedAgent.Console.Bff\GovernedAgent.Console.Bff.csproj" />
   </ItemGroup>

@@ -166,6 +166,17 @@ public sealed class ScriptedExperimentSchedulerTests
     }
 
     [Fact]
+    public void BoundedWaitMayExtendPastExclusiveHorizon()
+    {
+        var scheduler = new ScriptedExperimentScheduler();
+
+        scheduler.ValidateWait(23, 27);
+
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            scheduler.ValidateWait(23, 28));
+    }
+
+    [Fact]
     public void DelayedReviewSkipsTwelveWithoutCatchUpAndStartsAtSixteen()
     {
         var scheduler = new ScriptedExperimentScheduler();
@@ -234,5 +245,37 @@ public sealed class ScriptedExperimentSchedulerTests
         Assert.Equal(
             ["review-timeout", "late-review-result"],
             result.Trace.Select(item => item.ActionId));
+    }
+
+    [Fact]
+    public async Task AsyncCallbacksRetainApprovedOrdering()
+    {
+        var scheduler = new ScriptedExperimentScheduler();
+        var trace = new List<string>();
+        scheduler.ScheduleAsync(
+            8,
+            ResearchPhase.ActorProcessing,
+            "actor",
+            async (_, cancellationToken) =>
+            {
+                await Task.Yield();
+                cancellationToken.ThrowIfCancellationRequested();
+                trace.Add("actor");
+            });
+        scheduler.ScheduleAsync(
+            8,
+            ResearchPhase.ReviewProcessing,
+            "review",
+            async (_, cancellationToken) =>
+            {
+                await Task.Yield();
+                cancellationToken.ThrowIfCancellationRequested();
+                trace.Add("review");
+            });
+
+        var result = await scheduler.RunAsync();
+
+        Assert.Equal(["review", "actor"], trace);
+        Assert.Equal(["review", "actor"], result.Trace.Select(item => item.ActionId));
     }
 }

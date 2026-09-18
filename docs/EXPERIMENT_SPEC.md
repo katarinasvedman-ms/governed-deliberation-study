@@ -13,6 +13,11 @@ implemented by this document. The scripted defaults below are design parameters,
 not measured model performance or evidence that supervision helps. Live-model
 methodology and the open handoff items in section 11 remain separate.
 
+The T3-only authorization of 2026-09-18 permits scripted runtime coordination
+against this specification and the pushed T2 baseline. It does not authorize
+the T4 runner/evaluator, T5 comparative execution, live models, deployment, or
+new research semantics.
+
 See [the process record](governance/process.md#specification-consolidation-record)
 for approval history and implementation scope. The technical baseline and
 [contract definitions](T1_CONTRACT_PROPOSAL.md) are unchanged.

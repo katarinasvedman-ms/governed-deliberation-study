@@ -63,6 +63,31 @@ public sealed record Er1FixtureSample(
 
         return observation;
     }
+
+    public Observation CreatePostTerminationObservation(
+        string runId,
+        string observationId,
+        string? diagnosticId)
+    {
+        var observation = new Observation(
+            ResearchContractVersions.SchemaVersion,
+            "observation",
+            runId,
+            observationId,
+            EvidenceIds,
+            SourceKind,
+            SourceId,
+            TargetId,
+            diagnosticId,
+            AvailableTick,
+            null,
+            null,
+            ApplicabilityEpoch,
+            "post-termination",
+            Content);
+        ResearchContractValidator.ValidateAndThrow(observation);
+        return observation;
+    }
 }
 
 public sealed class Er1EvidenceFixture

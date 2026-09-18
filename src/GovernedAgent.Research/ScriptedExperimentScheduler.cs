@@ -85,6 +85,8 @@ public sealed class ScriptedResourceBudget
         ActiveActorTurns--;
     }
 
+    public void InvalidateActorTurn() => CompleteActorTurn();
+
     public bool TryDispatchDiagnostic()
     {
         if (DiagnosticAttempts >= _limits.DiagnosticAttempts)
@@ -185,6 +187,8 @@ public sealed class ScriptedExperimentScheduler
 
     public IReadOnlyList<uint> ReviewCheckpoints => _clock.ReviewCheckpoints;
 
+    public ScriptedResourceBudget CreateResourceBudget() => new(_limits);
+
     public uint ActorCompletionTick(uint startTick) =>
         checked(startTick + _clock.ActorTurnTicks);
 
@@ -206,12 +210,11 @@ public sealed class ScriptedExperimentScheduler
     public void ValidateWait(uint startTick, uint untilTick)
     {
         if (untilTick <= startTick ||
-            untilTick - startTick > _clock.MaximumWaitTicks ||
-            untilTick > _clock.EndTickExclusive)
+            untilTick - startTick > _clock.MaximumWaitTicks)
         {
             throw new ArgumentOutOfRangeException(
                 nameof(untilTick),
-                "Wait must end within four ticks and no later than the exclusive horizon.");
+                "Wait must end within four ticks.");
         }
     }
 
@@ -220,12 +223,43 @@ public sealed class ScriptedExperimentScheduler
         ResearchPhase phase,
         string actionId,
         Action<ScriptedSchedulerContext> action) =>
+        Schedule(
+            tick,
+            phase,
+            phaseOrder: 0,
+            actionId,
+            (context, _) =>
+            {
+                action(context);
+                return ValueTask.CompletedTask;
+            });
+
+    public void ScheduleAsync(
+        uint tick,
+        ResearchPhase phase,
+        string actionId,
+        Func<ScriptedSchedulerContext, CancellationToken, ValueTask> action) =>
         Schedule(tick, phase, phaseOrder: 0, actionId, action);
 
     public void ScheduleReviewTimeout(
         uint tick,
         string actionId,
         Action<ScriptedSchedulerContext> action) =>
+        Schedule(
+            tick,
+            ResearchPhase.ReviewProcessing,
+            phaseOrder: -1,
+            actionId,
+            (context, _) =>
+            {
+                action(context);
+                return ValueTask.CompletedTask;
+            });
+
+    public void ScheduleReviewTimeoutAsync(
+        uint tick,
+        string actionId,
+        Func<ScriptedSchedulerContext, CancellationToken, ValueTask> action) =>
         Schedule(tick, ResearchPhase.ReviewProcessing, phaseOrder: -1, actionId, action);
 
     private void Schedule(
@@ -233,7 +267,7 @@ public sealed class ScriptedExperimentScheduler
         ResearchPhase phase,
         int phaseOrder,
         string actionId,
-        Action<ScriptedSchedulerContext> action)
+        Func<ScriptedSchedulerContext, CancellationToken, ValueTask> action)
     {
         if (_started)
         {
@@ -253,6 +287,10 @@ public sealed class ScriptedExperimentScheduler
     }
 
     public ScriptedScheduleResult Run()
+        => RunAsync().GetAwaiter().GetResult();
+
+    public async Task<ScriptedScheduleResult> RunAsync(
+        CancellationToken cancellationToken = default)
     {
         if (_started)
         {
@@ -270,9 +308,10 @@ public sealed class ScriptedExperimentScheduler
                      .ThenBy(item => item.PhaseOrder)
                      .ThenBy(item => item.RegistrationOrder))
         {
+            cancellationToken.ThrowIfCancellationRequested();
             context.Tick = scheduled.Tick;
             context.Phase = scheduled.Phase;
-            scheduled.Action(context);
+            await scheduled.Action(context, cancellationToken);
             trace.Add(new ScriptedScheduleTraceEntry(
                 scheduled.Tick,
                 scheduled.Phase,
@@ -356,5 +395,5 @@ public sealed class ScriptedExperimentScheduler
         int PhaseOrder,
         string ActionId,
         uint RegistrationOrder,
-        Action<ScriptedSchedulerContext> Action);
+        Func<ScriptedSchedulerContext, CancellationToken, ValueTask> Action);
 }
