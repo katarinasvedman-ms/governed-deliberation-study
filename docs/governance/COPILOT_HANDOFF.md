@@ -2,7 +2,7 @@
 
 | Field | Value |
 | --- | --- |
-| Status | T3 reviewed and approved for checkpoint publication; stop before T4 |
+| Status | T3 and the narrow scripted smoke checkpoint are published; remaining T4/T5 work requires authorization |
 | Date | 2026-09-18 |
 | Design baseline | [EXPERIMENT_SPEC.md v1.0](../EXPERIMENT_SPEC.md) |
 | Starting repository revision | `3105d190d8b5739492efd0fa1f3c3745209c3753` |
@@ -268,9 +268,9 @@ explicitly decided.
 [straightforward ER-1 scripted smoke run](../SCRIPTED_SMOKE_RUN_PROPOSAL.md)
 defines a six-episode, three-architecture mechanism smoke test with actual
 candidate-3 records, a readable timeline, and a mechanical repeated-run check.
-Its implementation was authorized on 2026-09-18 for independent review. It
-does not authorize the remaining T4/T5 work and does not define the deferred
-C6 evaluator rubric.
+Its implementation was independently reviewed, committed, and published on
+2026-09-18. This completed checkpoint does not authorize the remaining T4/T5
+work and does not define the deferred C6 evaluator rubric.
 
 **Build:** one documented local command or entry point that runs the scripted
 case across the three architectures. Use the same actor configuration, events,

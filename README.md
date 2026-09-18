@@ -56,7 +56,7 @@ The live-model timing methodology is not yet fixed.
 Observations are immutable; beliefs remain provisional. Direction expires
 separately from belief validity, and already-dispatched operations may finish.
 The scripted runtime mechanism depicted here is implemented and exercised
-end to end by the bounded ER-1 smoke test. The independent evaluator and
+end to end by the bounded scripted smoke test. The independent evaluator and
 live-model execution are not implemented.
 
 [Editable Excalidraw](docs/architecture/actor-supervisor-shared-memory.excalidraw)
@@ -69,17 +69,17 @@ training or universal safety.
 
 ## Current status
 
-T0-T3 are implemented, reviewed, and published: isolated Agent Framework
-invocations, strict research contracts, the deterministic evolving-evidence
-scheduler, and one coordinator for actor-only, blocking, and asynchronous
-supervision. A narrow scripted smoke checkpoint runs the straightforward ER-1
-fixture twice under each architecture, persists validated records and timelines,
-and checks repeated-run reproducibility.
+The implemented, reviewed, and published foundation includes isolated Agent
+Framework invocations, strict research contracts, a deterministic
+evolving-evidence scheduler, and one coordinator for actor-only, blocking, and
+asynchronous supervision. A narrow scripted smoke checkpoint runs the
+straightforward evidence fixture twice under each architecture, persists
+validated records and timelines, and checks repeated-run reproducibility.
 
-This establishes scripted mechanism behavior only. The C6 evidence-support and
-next-step rubric, A02 competent-actor case, independent T4 evaluator, T5
-acceptance package, and live-model methodology remain deferred. **There are no
-comparative model-performance results yet.**
+This establishes scripted mechanism behavior only. Evidence-support and
+next-step evaluation rubrics, a competent-actor baseline case, the independent
+evaluator, the acceptance package, and live-model methodology remain deferred.
+**There are no comparative model-performance results yet.**
 
 ## Run the existing work
 
@@ -89,29 +89,23 @@ From the repository root:
 ```powershell
 npm ci
 dotnet tool restore
-pwsh .\scripts\test-t0-feasibility.ps1
-dotnet test .\tests\GovernedAgent.UnitTests\GovernedAgent.UnitTests.csproj --configuration Release --filter FullyQualifiedName~ResearchContractTests
-dotnet test .\tests\GovernedAgent.UnitTests\GovernedAgent.UnitTests.csproj --filter FullyQualifiedName~ScriptedExperimentSchedulerTests
-dotnet test .\tests\GovernedAgent.IntegrationTests\GovernedAgent.IntegrationTests.csproj --filter FullyQualifiedName~ScriptedSupervisionCoordinatorTests
-dotnet test .\tests\GovernedAgent.IntegrationTests\GovernedAgent.IntegrationTests.csproj --filter FullyQualifiedName~Er1StraightforwardSmokeRun --logger "console;verbosity=normal"
+pwsh .\scripts\validate.ps1
 ```
 
-The smoke command runs six scripted episodes: two repetitions each for
-actor-only, blocking, and asynchronous supervision. It writes validated
-mechanism records under the ignored
-`.artifacts\deliberation-study\smoke-er1\` directory. These commands do not run
-live models or score comparative benefit. For full repository validation,
-including the inherited proof checks, use `pwsh .\scripts\validate.ps1`; see
-the [local setup details](docs/T0_FEASIBILITY.md#reproduce).
+Validation includes the six-episode scripted smoke run: two repetitions each
+for actor-only, blocking, and asynchronous supervision. It writes validated
+mechanism records under the ignored `.artifacts\deliberation-study\` directory.
+The command does not run live models or score comparative benefit. See the
+[local setup details](docs/T0_FEASIBILITY.md#reproduce).
 
 ## Read more
 
 - [Discussion pitch](docs/pitch.html) — keep its adjacent `assets` folder when copying it.
 - [Related work and positioning](docs/related-work.md).
 - [Experiment specification](docs/EXPERIMENT_SPEC.md) and [serialized contract reference](docs/T1_CONTRACT_PROPOSAL.md).
-- [Approved ER-1 fixture](docs/ER1_FIXTURE_PROPOSAL.md) and [scripted smoke-run specification](docs/SCRIPTED_SMOKE_RUN_PROPOSAL.md).
+- [Approved synthetic evidence fixture](docs/ER1_FIXTURE_PROPOSAL.md) and [scripted smoke-run specification](docs/SCRIPTED_SMOKE_RUN_PROPOSAL.md).
 - [Framework feasibility evidence and limitations](docs/T0_FEASIBILITY.md).
-- [Implementation sequence and current gate](docs/governance/COPILOT_HANDOFF.md).
+- [Internal implementation sequence and current gate](docs/governance/COPILOT_HANDOFF.md).
 - [Open design questions](docs/open-design-questions.md).
 - [Development process and decision history](docs/governance/process.md).
 - [Inherited documentation archive](docs/archive/README.md).

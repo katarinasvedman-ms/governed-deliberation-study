@@ -4,7 +4,8 @@ This page holds agent-facing approvals and scope boundaries; it is not the resea
 The following process record is preserved from the contributor guidance. The repository now
 contains the committed feasibility and contract implementation at `30417d9` and the approved
 ER-1 documentation checkpoint at `bec4423`, with the pushed T2 baseline at
-`3105d19`.
+`3105d19`, reviewed T3 coordination at `948181f`, and the published scripted
+smoke checkpoint at `9578dd0`.
 
 ## Current preparation phase
 
@@ -43,8 +44,9 @@ ER-1 scripted smoke checkpoint described in
 [SCRIPTED_SMOKE_RUN_PROPOSAL.md](../SCRIPTED_SMOKE_RUN_PROPOSAL.md). It may
 persist validated mechanism records and compare repeated logical traces, using
 the approved deterministic opaque-ID test seam. It does not authorize the C6
-rubric, remaining T4 evaluator work, T5, live models, or deployment. Stop for
-independent review before commit or push.
+rubric, remaining T4 evaluator work, T5, live models, or deployment. Independent
+review approved the implementation, which was committed and pushed as
+`9578dd0`; the remaining evaluator and acceptance work stays separately gated.
 
 Use [COPILOT_HANDOFF.md](COPILOT_HANDOFF.md) to scope later authorized
 implementation tasks. Start with its framework feasibility gate; do not execute
