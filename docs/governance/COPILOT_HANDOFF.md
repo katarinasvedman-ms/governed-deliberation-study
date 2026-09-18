@@ -264,12 +264,13 @@ explicitly decided.
 
 ### T4. Add a bounded entry point and independent evaluator
 
-**Pending documentation-only milestone proposal:** the
+**Authorized narrow smoke checkpoint:** the
 [straightforward ER-1 scripted smoke run](../SCRIPTED_SMOKE_RUN_PROPOSAL.md)
 defines a six-episode, three-architecture mechanism smoke test with actual
 candidate-3 records, a readable timeline, and a mechanical repeated-run check.
-It is not authorization to implement T4/T5 and does not define the deferred C6
-evaluator rubric.
+Its implementation was authorized on 2026-09-18 for independent review. It
+does not authorize the remaining T4/T5 work and does not define the deferred
+C6 evaluator rubric.
 
 **Build:** one documented local command or entry point that runs the scripted
 case across the three architectures. Use the same actor configuration, events,

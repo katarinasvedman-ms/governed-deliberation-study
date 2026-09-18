@@ -43,9 +43,12 @@ public sealed class GovernedToolGateway(
     IKillSwitch killSwitch,
     IAuditChain auditChain,
     IGovernedToolExecutor executor,
-    TimeProvider? timeProvider = null)
+    TimeProvider? timeProvider = null,
+    Func<Guid>? auditRecordIdFactory = null)
 {
     private readonly TimeProvider _timeProvider = timeProvider ?? TimeProvider.System;
+    private readonly Func<Guid> _auditRecordIdFactory =
+        auditRecordIdFactory ?? Guid.NewGuid;
 
     public async ValueTask<GatewayResult> ExecuteAsync(
         GovernedToolRequest request,
@@ -364,7 +367,7 @@ public sealed class GovernedToolGateway(
         DateTimeOffset timestamp)
     {
         auditChain.Append(new AuditRecord(
-            Guid.NewGuid(),
+            _auditRecordIdFactory(),
             request.Envelope.RequestId,
             request.Envelope.RequestId.ToString("D"),
             request.Envelope.Session.IncidentId,

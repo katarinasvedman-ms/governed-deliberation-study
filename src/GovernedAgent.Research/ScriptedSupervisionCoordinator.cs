@@ -209,6 +209,11 @@ public sealed class ScriptedSupervisionCoordinator : IAsyncDisposable
         get { lock (_sync) { return _reviewHistory.ToImmutableArray(); } }
     }
 
+    public IReadOnlyList<InvocationResult> InvocationResults
+    {
+        get { lock (_sync) { return _invocationResults.ToImmutableArray(); } }
+    }
+
     public IReadOnlyList<ResearchEvent> Events
     {
         get { lock (_sync) { return _events.ToImmutableArray(); } }

@@ -17,9 +17,11 @@ public sealed class LocalDeterministicAgentWorkflow(
     int maximumSteps = 8,
     string specificationVersion = "1.0",
     string verifierVersion = "0.1.0",
-    TimeProvider? timeProvider = null) : IAgentWorkflow
+    TimeProvider? timeProvider = null,
+    Func<Guid>? requestIdFactory = null) : IAgentWorkflow
 {
     private readonly TimeProvider _timeProvider = timeProvider ?? TimeProvider.System;
+    private readonly Func<Guid> _requestIdFactory = requestIdFactory ?? Guid.NewGuid;
 
     public async ValueTask<AgentWorkflowResult> ExecuteAsync(
         AgentWorkflowRequest request,
@@ -204,7 +206,7 @@ public sealed class LocalDeterministicAgentWorkflow(
         PlanVerificationDecision decision) =>
         new(
             "1.0",
-            Guid.NewGuid(),
+            _requestIdFactory(),
             _timeProvider.GetUtcNow(),
             request.User,
             request.Agent,

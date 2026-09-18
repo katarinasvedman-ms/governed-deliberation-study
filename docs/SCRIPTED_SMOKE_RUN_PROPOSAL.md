@@ -2,7 +2,7 @@
 
 | Field | Proposed value |
 | --- | --- |
-| Status | Documentation-only proposal; not authorization to implement T4 or T5 |
+| Status | Narrow scripted smoke implementation authorized; stop for review before remaining T4/T5 |
 | Date | 2026-09-18 |
 | Fixture | Approved `ER1-fixture-1`, straightforward development variant only |
 | Architectures | Actor-only, blocking supervision, asynchronous supervision |
@@ -19,9 +19,10 @@ T1 contracts, T2 scheduler/evidence fixture, and reviewed T3 coordinator can
 produce complete runtime records together.
 
 This proposal does not add a dashboard, scenario, model call, score, outcome
-rubric, deployment path, or new coordination layer. It does not authorize
-implementation. Scripted tick differences are mechanism observations, not
-evidence that supervision improves model performance.
+rubric, deployment path, or new coordination layer. Its six-episode scripted
+smoke implementation was authorized on 2026-09-18 as a separate review
+checkpoint. Scripted tick differences are mechanism observations, not evidence
+that supervision improves model performance.
 
 ## 2. Fixed inputs
 
@@ -76,8 +77,8 @@ fresh state for reproducibility. Diagnostic initiation remains separate from
 scheduled result processing, so delayed delivery cannot block world ticks,
 reviews, interruptions, or the horizon.
 
-This test and artifact production are future T4 work. No implementation is
-authorized by this document.
+This test and artifact production are the authorized narrow smoke checkpoint.
+They do not authorize the remaining T4 evaluator work or T5.
 
 ## 4. Required runtime records
 
@@ -150,9 +151,18 @@ Compare:
   status.
 
 Exclude only values that are deliberately fresh operational identities:
-`runId`, plan/request/audit UUIDs, artifact path, and measured wall-clock
-timestamps. Preserve and compare source revision, source dirty-state,
-plan/action digests, and all semantic payloads.
+`runId`, plan/request/correlation/audit UUIDs, encounter-normalized operational
+record identifiers, and artifact path. The scripted run uses the fixed approved
+clock and contains no measured wall-clock fields; all record timestamps are
+compared exactly. Preserve and compare source revision, source dirty-state,
+plan/action/audit hashes, and all semantic payloads.
+
+For the smoke checkpoint only, the governed adapter receives an
+encounter-ordered deterministic UUID source for plan, request, and audit record
+identities. The default adapter continues to use fresh UUIDs. This seam changes
+only opaque identity values, remains unique within each run, and is identified
+by the run manifest's governance configuration. Actual plan, action, and audit
+hashes remain unmodified and are compared exactly across repetitions.
 
 Write `reproducibility.json` at the run-set root with one result per
 architecture, the exact excluded-field list, and the first mismatching path if

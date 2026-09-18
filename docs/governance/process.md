@@ -38,6 +38,14 @@ scenarios, or research-design additions. Independent review confirmed the T3
 conformance corrections on 2026-09-18 and authorized publishing the reviewed
 T3 checkpoint to `main`. Stop before T4.
 
+Later on 2026-09-18, the user authorized only the six-episode straightforward
+ER-1 scripted smoke checkpoint described in
+[SCRIPTED_SMOKE_RUN_PROPOSAL.md](../SCRIPTED_SMOKE_RUN_PROPOSAL.md). It may
+persist validated mechanism records and compare repeated logical traces, using
+the approved deterministic opaque-ID test seam. It does not authorize the C6
+rubric, remaining T4 evaluator work, T5, live models, or deployment. Stop for
+independent review before commit or push.
+
 Use [COPILOT_HANDOFF.md](COPILOT_HANDOFF.md) to scope later authorized
 implementation tasks. Start with its framework feasibility gate; do not execute
 all tasks merely because the handoff exists or replace scripted components

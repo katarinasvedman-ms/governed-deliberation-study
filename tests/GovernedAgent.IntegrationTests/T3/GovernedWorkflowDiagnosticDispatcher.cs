@@ -17,11 +17,16 @@ internal sealed class GovernedWorkflowDiagnosticDispatcher : IGovernedDiagnostic
         DateTimeOffset.Parse("2026-09-18T12:00:00Z");
     private readonly Er1EvidenceFixture _fixture =
         new(Er1FixtureOptions.Straightforward);
+    private readonly List<AuditRecord> _auditRecords = [];
 
     public int DispatchCount { get; private set; }
     public int AuditRecordCount { get; private set; }
     public bool KillSwitchActive { get; init; }
     public bool VerifierUnavailable { get; init; }
+    public Func<Guid>? PlanIdFactory { get; init; }
+    public Func<Guid>? RequestIdFactory { get; init; }
+    public Func<Guid>? AuditRecordIdFactory { get; init; }
+    public IReadOnlyList<AuditRecord> AuditRecords => _auditRecords.AsReadOnly();
 
     public async ValueTask<GovernedDiagnosticResult> DispatchAsync(
         GovernedDiagnosticRequest request,
@@ -86,7 +91,8 @@ internal sealed class GovernedWorkflowDiagnosticDispatcher : IGovernedDiagnostic
             killSwitch,
             audit,
             executor,
-            clock);
+            clock,
+            AuditRecordIdFactory);
         var verifier = VerifierUnavailable
             ? new NodePlanVerifier(
                 "node-t3-intentionally-missing",
@@ -110,7 +116,8 @@ internal sealed class GovernedWorkflowDiagnosticDispatcher : IGovernedDiagnostic
                     tool.ApprovalClass,
                     ResourceArgument(request.Decision.Operation))
             },
-            timeProvider: clock);
+            timeProvider: clock,
+            requestIdFactory: RequestIdFactory);
         var workflowResult = await workflow.ExecuteAsync(
             new AgentWorkflowRequest(
                 plan,
@@ -125,7 +132,10 @@ internal sealed class GovernedWorkflowDiagnosticDispatcher : IGovernedDiagnostic
                     ServiceId: Er1EvidenceFixture.PaymentsServiceId,
                     ServiceHealth: ServiceHealth.Healthy)),
             cancellationToken);
-        var auditIds = audit.ReadAll().Select(item => item.RecordId).ToArray();
+        Assert.True(audit.VerifyIntegrity());
+        var auditRecords = audit.ReadAll();
+        _auditRecords.AddRange(auditRecords);
+        var auditIds = auditRecords.Select(item => item.RecordId).ToArray();
         AuditRecordCount += auditIds.Length;
         if (workflowResult.Status == AgentWorkflowStatus.Failed)
         {
@@ -161,7 +171,7 @@ internal sealed class GovernedWorkflowDiagnosticDispatcher : IGovernedDiagnostic
             null);
     }
 
-    private static ActionPlan CreatePlan(
+    private ActionPlan CreatePlan(
         GovernedDiagnosticRequest request,
         ToolMetadata tool)
     {
@@ -194,7 +204,7 @@ internal sealed class GovernedWorkflowDiagnosticDispatcher : IGovernedDiagnostic
             null);
         return new ActionPlan(
             "1.0",
-            Guid.NewGuid(),
+            PlanIdFactory?.Invoke() ?? Guid.NewGuid(),
             Er1EvidenceFixture.IncidentId,
             "t3-scripted-actor",
             "1.0.0",
