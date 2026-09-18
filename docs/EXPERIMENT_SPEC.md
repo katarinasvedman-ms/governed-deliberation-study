@@ -208,6 +208,12 @@ in this repository's pinned version.
 
 ## 4. Evidence and world state
 
+**Pending retrieval amendment:** [section 13](#13-proposed-amendment-realistic-diagnostic-retrieval)
+proposes replacing scheduled pre-signal unavailability with current observable
+records and adds a separate ambiguous variant. It is not yet an implementation
+baseline. Resolve its fixture details and reconcile A03 before implementing
+affected evidence delivery; do not mix the two behaviors implicitly.
+
 The initial development example uses the [draft Payments evidence sequence](governance/research-history.md#draft-evidence-sequence-payments-investigation):
 
 | ID | Available from | Delivery and content |
@@ -960,3 +966,196 @@ revision it actually consumed; an old turn is never relabeled.
 The complete trigger, disposition, event and terminal-record field definitions
 are in the approved consolidated contract baseline. These lifecycle rules and
 atomic invalidation are approved for T1 contract-level implementation.
+
+## 13. Proposed amendment: realistic diagnostic retrieval
+
+| Field | Value |
+| --- | --- |
+| Amendment ID | ER-1 |
+| Date | 2026-09-18 |
+| Status | Proposed evidence mapping for review; exact fixture payloads remain open |
+| Scope | Development diagnostic retrieval, notification delivery, and a recovery variation |
+| Implementation | No code, serialized contracts, scenario data, or tests changed |
+
+### 13.1 Purpose and baseline interaction
+
+Normal successful queries should return currently observable records, not a
+fixture-authored signal that relevant evidence will appear later. Absence of a
+particular record is not an access failure or a promise of future evidence.
+The model receives measurements and provenance, not evaluator interpretations.
+
+This changes the pre-signal behavior specified in section 4 and acceptance
+example A03. It is a proposed amendment, not an editorial reinterpretation.
+The straightforward development case remains; an ambiguous-investigation variant
+is proposed separately rather than replacing it with a case chosen to favor
+supervision. Exact evidence equivalence and outcome rubrics remain deferred.
+
+### 13.2 Query-to-evidence table
+
+Times below refer to diagnostic dispatch under the existing sampling rule,
+not the start of the actor's reasoning. Later evidence does not modify an
+in-flight input snapshot. The seven operation/target pairs remain unchanged.
+
+| Operation | Target | Initially observable | Later observable |
+| --- | --- | --- | --- |
+| `get_incident` | `INC-1042` | From tick 0: incident identity, affected service, opening time, and current status. | Status changes and their timestamps; no inferred cause or future event schedule. |
+| `get_service_health` | `payments-api` | Current instance readiness and available restart history. | Updated readiness and restart records, as defined by the selected variant. |
+| `query_metrics` | `payments-api` | Available error-rate, latency, CPU, and memory samples, including pre-incident comparison windows. | Additional timestamped samples as they become observable, without an explanation of which measurements matter. |
+| `query_logs` | `payments-api` | Existing application records for the defined query window; no timeout records before they become observable. | From tick 8: request-linked authorization timeout records. From tick 16: cache-warning records and comparable earlier-window records, with their time windows distinguished. |
+| `get_service_health` | `authorization-service` | Current readiness and available health history. | Updated health observations, without interpreting readiness as evidence of normal request latency. |
+| `query_metrics` | `authorization-service` | Currently collected dependency latency and request-count samples. | From tick 12: delayed samples showing elevated latency, but no queue-wait decomposition in this response. |
+| `query_logs` | `authorization-service` | Currently collected request-processing records; no future queue-delay records. | From tick 12: E3, linked arrival, processing-start, and processing-end records exposing the queue delay. |
+
+The proposed canonical retrieval route for E3 is
+`query_logs(authorization-service)`. General dependency latency is not assigned
+the same evidence identity as the request-linked queue-delay records.
+This route does not settle all possible equivalent evidence or scoring rules.
+
+Baseline query windows, initial records, detailed numerical values, and fixed
+operation/target response projections still require an explicit fixture table.
+The implementer must not fill these gaps with convenient values. In particular,
+the existing shared E0-E4 narratives are not complete diagnostic payloads.
+
+### 13.3 Successful empty results and actual unavailability
+
+A successful log query may return an empty collection for its defined window
+if the fixture establishes that no matching records have been collected.
+Do not fabricate normal measurements or use empty success to conceal an
+access/telemetry failure.
+
+The existing `unavailable` branch is reserved here for an explicitly modeled
+diagnostic-access or telemetry-availability condition, not the normal absence
+of the incident's revealing signal. The current wire vocabulary only supports
+`reason: "not-yet-available"`; this amendment does not add new failure codes or
+authorize labeling an unrelated failure with that reason. Broader failure
+representations would require a separate contract decision.
+
+Available telemetry freshness or completeness information can legitimately aid
+reasoning. The requirement is no privileged hints from the scenario author,
+not a guarantee that every kind of missing evidence is indistinguishable.
+Do not disclose the next scheduled collection time or future fixture contents.
+
+### 13.4 Notification delivery and variant separation
+
+| Tick | Straightforward variant | Ambiguous-investigation variant |
+| --- | --- | --- |
+| 0 | Push the incident alert: errors and latency rise. | Same initial alert. |
+| 4 | Push the existing local health/resource observations as measurements. | Push a timestamped local symptom, such as elevated resource use on one instance, with internally consistent supporting and follow-up records. The exact symptom is not selected yet. |
+| 8 | Push the timeout summary; underlying records are also queryable. | Timeout records become retrievable through `query_logs(payments-api)`; no timeout-summary notification. |
+| 12 | Dependency metrics and E3 logs become observable on request. No notification announces this availability. | Same retrieval boundary, also without a notification. |
+| 16 | Deliver a cache-warning digest with records and comparable historical counts. | Same presentation rule; no description of the signal as a distraction or explanation of its relevance. |
+| 24 | Existing exclusive episode horizon. | Same horizon. |
+
+Record evidence-content choices separately from notification-policy choices.
+This pair of variants explores different conditions; it does not isolate the
+causal effect of ambiguity versus notification delivery. Do not add new
+experimental arms or claim a controlled ablation on that basis.
+
+The local symptom must have a coherent relationship to the authored incident:
+cause, consequence, or coincidence with observable context. Do not insert a
+contradictory red herring solely to force actor failure. The actor may diagnose
+either case effectively without supervision.
+
+### 13.5 Evidence presentation and provenance
+
+| Model-visible data | Evaluator/development interpretation only |
+| --- | --- |
+| Readiness states, restart timestamps, and resource samples over specified windows | Whether these weaken or support a local-fault explanation |
+| Request identifiers and timeout records | Whether dependency investigation is an appropriate next step |
+| Arrival, processing-start, and completion timestamps | Whether queue delay is sufficiently supported as the failure domain |
+| Warning records and counts across comparable windows | Whether pursuing the cache is justified |
+| Observations and declared remaining budgets | Future schedule, hidden cause, scenario category, acceptable-answer rubric |
+
+Queries must expose the data needed for the intended comparison. For example,
+an unchanged warning rate requires accessible earlier and current observations,
+not a sentence saying "the rate is unchanged and unrelated to this incident."
+
+Distinguish underlying event time, collection/availability time, dispatch-time
+sampling, and delivery to observed history. Tick 12 is an observability boundary,
+not necessarily the onset of the underlying queue delay. Historical records
+retain their original event times even when delivered later.
+
+Evidence IDs identify the actual returned content; a partial health response
+must not claim to contain every part of the E1 narrative. Repeated retrieval
+creates a new observation record but is not independent corroboration. Define
+stable evidence identities for repeated or partial responses before building
+the fixture; new diagnostic evidence IDs must not reveal hidden case labels.
+
+The current contracts have source timestamps and availability/delivery fields,
+but do not automatically define every query-window or collection metadata field
+needed above. The preparation step must map these requirements onto the approved
+DTOs and observation envelopes. Any missing representation must be raised as
+an explicit contract question, not silently added to a closed schema.
+Actor-selected query-window arguments are not introduced: the current catalogue
+still binds allowed targets with empty component argument objects.
+
+### 13.6 Proposed external-recovery variation
+
+Propose externally caused recovery at tick 10, after E2 becomes observable and
+before the first possible E3 retrieval. The recovery tick and precise recovery
+payloads require review; they do not revise every episode's schedule.
+
+- Deliver timestamped recovery observations and advance the applicability epoch.
+  Do not attribute external recovery to an actor or supervisor.
+- Record observed recovery separately from administrative incident closure.
+- Subsequent diagnostics reflect the declared observation windows and collection
+  lag. Newly collected current measurements must not retain stale active-fault
+  values merely to preserve the original scenario.
+- E3 may become observable at tick 12 as evidence about pre-recovery requests.
+  Its timestamps must not present those requests as ongoing queue delay.
+- Retain old input snapshots and historical records unchanged. Apply existing
+  epoch rules to pending guidance; recovery does not erase the earlier incident.
+- The cache digest may still arrive at tick 16 with its historical comparison
+  windows; it must not imply a new causal relationship.
+
+Before implementation, specify how a diagnostic containing historical
+pre-recovery records is represented alongside the observation envelope's epoch.
+Distinguish a current retrieval of old records from delayed delivery of an
+already-sampled diagnostic; do not relabel old snapshots or infer current
+activity from an old event. No epoch/dispatch rule changes are implicit here.
+
+### 13.7 Query cost and proposed acceptance adjustments
+
+Retain the existing 12-diagnostic-attempt budget, one-tick actor turns, zero
+additional diagnostic execution ticks in the scripted default, and exclusive
+tick-24 horizon. Successful queries, including polling that yields no new signal,
+consume the existing attempt and turn budgets. No new polling penalty or
+automatic early-stop policy is introduced. Record repeated retrieval and assess
+its usefulness in context.
+
+After approval and payload completion, the affected acceptance examples should
+demonstrate:
+
+- A query before tick 12 returns ordinary currently observable records, not E3
+  or a scheduled-unavailability hint. At or after tick 12, the prescribed
+  dependency-log query can return E3.
+- Tick 12 produces no model-visible availability notification.
+- Repeated records preserve evidence identity while observation IDs change.
+- The ambiguous variant does not push E2, and relevant records are obtainable
+  through the existing diagnostic catalogue.
+- Model-visible payloads contain raw observations and provenance, not the
+  interpretation column or hidden answer.
+- Recovery changes current observations consistently while preserving historical
+  fault evidence, original timestamps, and frozen in-flight snapshots.
+- Polling consumes existing budgets; a competent actor can succeed without help.
+
+These are proposed adjustments, not implemented tests or new success thresholds.
+The original A03 behavior and any worked trace depending on it must be explicitly
+reconciled during approval. Do not claim the original authored report times
+remain unchanged without checking the revised fixture.
+
+### 13.8 Remaining preparation before the affected T2 work
+
+1. Fix exact initial responses and subsequent payloads for all seven query pairs,
+   including successful empty windows and sample/collection timing.
+2. Choose the ambiguous local symptom and its consistent diagnostic records.
+3. Fix the recovery payloads, status transitions, and historical-record epoch mapping.
+4. Specify stable evidence identities and which records each diagnostic returns.
+5. Confirm compatibility with existing closed DTOs; identify any required
+   representation amendment separately.
+6. Review ER-1, reconcile section 4/A03 and dependent examples, and record the
+   approved mapping in the handoff before authorizing its implementation.
+
+Evidence equivalence beyond the stated E3 retrieval route, complete case rubrics,
+scoring weights, and held-out design remain deferred. This amendment does not
+authorize T2, live models, or changes to the current three-architecture comparison.

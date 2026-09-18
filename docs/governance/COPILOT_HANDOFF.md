@@ -201,6 +201,13 @@ runner or proceed to T2 without separate authorization.
 
 ### T2. Implement deterministic time and evolving evidence
 
+**Pending design review:** [ER-1](../EXPERIMENT_SPEC.md#13-proposed-amendment-realistic-diagnostic-retrieval)
+proposes revised successful-query behavior and separate development variants.
+Its exact payloads, time/provenance mapping, and interaction with the original
+unavailability acceptance case remain unresolved. Do not implement the affected
+retrieval fixtures by choosing between these rules implicitly; obtain the
+reviewed mapping and separate T2 authorization first.
+
 **Build:** a small discrete-event scheduler implementing specification section 3,
 including its exclusive horizon and same-tick ordering. Advance to scheduled
 events rather than using wall-clock sleeps or framework-step counts as time.
