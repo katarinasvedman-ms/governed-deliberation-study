@@ -30,8 +30,8 @@ and memory rules in both supervised conditions.
 
 The first episode investigates elevated errors in a Payments API. Evidence
 arrives over time: an incident alert, healthy local instances, and dependency
-timeouts, followed by dependency diagnostics available on request and a distracting
-cache warning. The development schedule releases these at logical ticks
+timeouts, followed by dependency diagnostics available on request and a
+cache-warning comparison digest. The development schedule releases these at logical ticks
 0, 4, 8, 12, and 16, with an exclusive horizon of 24. Neither component receives
 future evidence or the answer key. The episode ends at a diagnosis and justified
 next step, **not executed remediation**.
@@ -55,7 +55,9 @@ The live-model timing methodology is not yet fixed.
 **Memory makes corrections persist; interruption makes them effective promptly.**
 Observations are immutable; beliefs remain provisional. Direction expires
 separately from belief validity, and already-dispatched operations may finish.
-The runtime depicted here is not yet implemented end to end.
+The scripted runtime mechanism depicted here is implemented and exercised
+end to end by the bounded ER-1 smoke test. The independent evaluator and
+live-model execution are not implemented.
 
 [Editable Excalidraw](docs/architecture/actor-supervisor-shared-memory.excalidraw)
 | [SVG](docs/architecture/actor-supervisor-shared-memory.svg)
@@ -67,12 +69,17 @@ training or universal safety.
 
 ## Current status
 
-Scripted Agent Framework feasibility probes demonstrate independent invocation
-progress and suppression of obsolete decisions. Research contracts, strict
-serialization, and fixture-based validation are implemented and reviewed.
-The evolving-incident scheduler, runtime memory coordinator, complete runner,
-and live-model comparisons are not built. **There are no comparative model
-results yet.**
+T0-T3 are implemented, reviewed, and published: isolated Agent Framework
+invocations, strict research contracts, the deterministic evolving-evidence
+scheduler, and one coordinator for actor-only, blocking, and asynchronous
+supervision. A narrow scripted smoke checkpoint runs the straightforward ER-1
+fixture twice under each architecture, persists validated records and timelines,
+and checks repeated-run reproducibility.
+
+This establishes scripted mechanism behavior only. The C6 evidence-support and
+next-step rubric, A02 competent-actor case, independent T4 evaluator, T5
+acceptance package, and live-model methodology remain deferred. **There are no
+comparative model-performance results yet.**
 
 ## Run the existing work
 
@@ -84,19 +91,27 @@ npm ci
 dotnet tool restore
 pwsh .\scripts\test-t0-feasibility.ps1
 dotnet test .\tests\GovernedAgent.UnitTests\GovernedAgent.UnitTests.csproj --configuration Release --filter FullyQualifiedName~ResearchContractTests
+dotnet test .\tests\GovernedAgent.UnitTests\GovernedAgent.UnitTests.csproj --filter FullyQualifiedName~ScriptedExperimentSchedulerTests
+dotnet test .\tests\GovernedAgent.IntegrationTests\GovernedAgent.IntegrationTests.csproj --filter FullyQualifiedName~ScriptedSupervisionCoordinatorTests
+dotnet test .\tests\GovernedAgent.IntegrationTests\GovernedAgent.IntegrationTests.csproj --filter FullyQualifiedName~Er1StraightforwardSmokeRun --logger "console;verbosity=normal"
 ```
 
-These run the scripted feasibility probes and research-contract tests, not
-the planned comparative experiment. For full repository validation, including
-the inherited proof checks, use `pwsh .\scripts\validate.ps1`; see the
-[local setup details](docs/T0_FEASIBILITY.md#reproduce).
+The smoke command runs six scripted episodes: two repetitions each for
+actor-only, blocking, and asynchronous supervision. It writes validated
+mechanism records under the ignored
+`.artifacts\deliberation-study\smoke-er1\` directory. These commands do not run
+live models or score comparative benefit. For full repository validation,
+including the inherited proof checks, use `pwsh .\scripts\validate.ps1`; see
+the [local setup details](docs/T0_FEASIBILITY.md#reproduce).
 
 ## Read more
 
 - [Discussion pitch](docs/pitch.html) — keep its adjacent `assets` folder when copying it.
 - [Related work and positioning](docs/related-work.md).
 - [Experiment specification](docs/EXPERIMENT_SPEC.md) and [serialized contract reference](docs/T1_CONTRACT_PROPOSAL.md).
+- [Approved ER-1 fixture](docs/ER1_FIXTURE_PROPOSAL.md) and [scripted smoke-run specification](docs/SCRIPTED_SMOKE_RUN_PROPOSAL.md).
 - [Framework feasibility evidence and limitations](docs/T0_FEASIBILITY.md).
+- [Implementation sequence and current gate](docs/governance/COPILOT_HANDOFF.md).
 - [Open design questions](docs/open-design-questions.md).
 - [Development process and decision history](docs/governance/process.md).
 - [Inherited documentation archive](docs/archive/README.md).
