@@ -201,26 +201,28 @@ runner or proceed to T2 without separate authorization.
 
 ### T2. Implement deterministic time and evolving evidence
 
-**Pending design review:** [ER-1](../EXPERIMENT_SPEC.md#13-proposed-amendment-realistic-diagnostic-retrieval)
-proposes revised successful-query behavior and separate development variants.
-Its exact payloads, time/provenance mapping, and interaction with the original
-unavailability acceptance case remain unresolved. Do not implement the affected
-retrieval fixtures by choosing between these rules implicitly; obtain the
-reviewed mapping and separate T2 authorization first.
+**Approved design; implementation gate closed:** [ER-1](../EXPERIMENT_SPEC.md#13-approved-amendment-realistic-diagnostic-retrieval)
+and the [ER-1 fixture specification](../ER1_FIXTURE_PROPOSAL.md) define the
+authoritative synthetic payloads, neutral evidence IDs, time/provenance mapping,
+variant behavior, recovery responses, Q-ER1-1 safeguards, and A03/timeline
+reconciliation. This approval is documentation-only. Obtain separate T2
+authorization before implementation.
 
 **Build:** a small discrete-event scheduler implementing specification section 3,
 including its exclusive horizon and same-tick ordering. Advance to scheduled
 events rather than using wall-clock sleeps or framework-step counts as time.
 
-Add the development evidence sequence E0-E4 with immutable IDs, delivery and
-availability times, on-demand dependency retrieval, and explicit unavailable
-results before the relevant evidence exists.
+Add the approved development evidence sequence with immutable neutral evidence
+IDs, fixed projections, source/collection/retrieval/delivery timing, on-demand
+dependency retrieval, legitimate empty results, and silent tick-12 availability.
+Reserve explicit unavailable results for separately authored telemetry/access
+failures, not normal pre-signal retrieval.
 
 A recovery variant must update later diagnostics consistently while retaining
 historical observations. Both components see only permitted observed history;
 no supervisor-specific retrieval or hidden answer access.
 
-**Acceptance:** A03-A05, A08-A12, and the scheduler portions of A15-A16.
+**Acceptance:** A03-A05, A08-A12, A20-A21, and the scheduler portions of A15-A16.
 Repeat the same scripted run inputs to produce equivalent logical event records.
 If random run IDs are used, separate them from the canonical comparison payload.
 
@@ -316,6 +318,7 @@ These are coverage obligations, not claims that tests already exist.
 | A14-A16 | T0/T3/T5 | Preemption, same-tick priority, and already-dispatched operation handling |
 | A17-A18 | T3/T5 | Non-interrupting duplicate/NoChange outputs and bounded repeated interruption |
 | A19 | T0/T5 | Actual framework parallel progress and later interruption |
+| A20-A21 | T2/T5 | Stable repeated evidence identity and the ambiguous variant's queryable E2 behavior |
 
 Framework proof-of-feasibility and deterministic scheduler acceptance are
 different evidence. Completing one does not imply the other.

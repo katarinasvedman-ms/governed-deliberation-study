@@ -208,28 +208,34 @@ in this repository's pinned version.
 
 ## 4. Evidence and world state
 
-**Pending retrieval amendment:** [section 13](#13-proposed-amendment-realistic-diagnostic-retrieval)
-proposes replacing scheduled pre-signal unavailability with current observable
-records and adds a separate ambiguous variant. It is not yet an implementation
-baseline. Resolve its fixture details and reconcile A03 before implementing
-affected evidence delivery; do not mix the two behaviors implicitly.
+The approved [ER-1 amendment](#13-approved-amendment-realistic-diagnostic-retrieval)
+and [fixture specification](ER1_FIXTURE_PROPOSAL.md) define authoritative
+diagnostic retrieval, notification, variant, and recovery behavior. This is a
+documentation baseline only; T2 implementation remains separately gated.
 
-The initial development example uses the [draft Payments evidence sequence](governance/research-history.md#draft-evidence-sequence-payments-investigation):
+The approved development example is derived from the
+[historical Payments evidence sequence](governance/research-history.md#draft-evidence-sequence-payments-investigation):
 
 | ID | Available from | Delivery and content |
 | --- | --- | --- |
 | E0 | 0 | Shared notification: API error rate rises to 18%, p95 latency to 2.6 seconds; no cause established. |
-| E1 | 4 | Shared update: three ready instances, normal resource use, no recent deployment. |
-| E2 | 8 | Shared trace summary: sampled failures correlate with authorization-service timeouts across instances. |
-| E3 | 12 | On-demand dependency diagnostics: linked request queue waits exceed the caller timeout. Availability alone does not deliver this result. |
+| E1 | 4 | Straightforward shared update: three ready instances and the specified aggregate resource samples. The ambiguous variant instead pushes the approved `payments-api-03` CPU symptom and follow-ups. |
+| E2 | 8 | Straightforward shared trace summary: sampled failures correlate with authorization-service timeouts across instances. In the ambiguous variant, the underlying payments logs become queryable without this notification. |
+| E3 | 12 | On-demand authorization-service logs: linked request arrival and processing timestamps expose queue waits exceeding the caller timeout. Tick 12 is silent; availability alone does not deliver this result. |
 | E4 | 16 | Shared log digest: a cache warning without a changed rate or demonstrated link to the failures. |
 
-Before E3 is available, its diagnostic query returns an explicit
-not-yet-available observation, not future data or a successful empty answer.
-The same query executed at or after tick 12 may return E3. Returning a query
+Normal successful queries return the currently observable fixed projection,
+including legitimate empty log results. In particular,
+`query_logs(authorization-service)` dispatched before tick 12 returns the
+successful `AL0` empty projection; at or after tick 12 it returns the collected
+E3 records. Neither response reveals a future schedule. Returning a query
 decision at tick 12 is allowed even if the decision's input snapshot was taken
-at tick 11: diagnostic retrieval is an action performed at tick 12, not a
-retroactive change to that snapshot.
+at tick 11: diagnostic retrieval is sampled at dispatch, not retroactively
+inserted into the earlier snapshot.
+
+An explicit unavailable result is reserved for a separately authored
+telemetry/access failure. It is not the normal representation of an empty
+window or evidence that has not yet been collected.
 
 The supervisor has no independent diagnostic-tool access in this experiment. It
 can suggest that the actor investigate a target, then review the resulting
@@ -281,7 +287,7 @@ schedule of future diagnostic evidence.
 
 Candidate diagnostic operations are the inherited `get_incident`,
 `get_service_health`, `query_metrics`, and `query_logs`. The Payments service,
-incident identifier, and proposed authorization-service dependency must be
+incident identifier, and approved authorization-service dependency must be
 bound by trusted metadata. The inherited simulator does not yet implement the
 full multi-target development scenario.
 
@@ -395,7 +401,8 @@ works. Its behavior is authored, not evidence of real-model effectiveness:
 ### 7.2 Selected checkpoints
 
 The table shows consequential points, not every Wait turn. All event ordering
-and durations are governed by section 3.
+and durations are governed by section 3. It is the straightforward variant
+only; it does not define report times for the ambiguous or recovery variants.
 
 | Tick | World / shared evidence | Actor-only | Blocking supervision | Asynchronous supervision |
 | --- | --- | --- | --- | --- |
@@ -403,24 +410,29 @@ and durations are governed by section 3.
 | 3 | No new external evidence | Continues under the scripted wait policy. | NoChange review completes; starts first local diagnostic turn. | NoChange review completes without waking a parked actor. |
 | 4 | E1 delivered | Responds with a local diagnostic turn when ready. | Local query executes; next review starts and blocks new turns. | Next review starts; actor may respond to E1. |
 | 8 | E2 delivered | Script remains locally focused. | Review starts with E2; actor waits after any due turn completion. | Review starts with E2; actor may continue local work. |
-| 11 | E3 is not yet available | No supervisor to redirect this fixture. | Dependency-focus guidance arrives; starts dependency query turn. | Dependency-focus guidance arrives; wakes the waiting actor, which starts dependency query turn. |
-| 12 | E3 becomes retrievable | Script has not requested it. | Query executes and E3 enters history. Review starts with E3 and blocks the report turn. | Query executes and E3 enters history. Review starts, but actor also starts its Report turn. |
+| 11 | No E3 notification; a dependency-log query dispatched now would return the successful `AL0` empty projection. | No supervisor to redirect this fixture. | Dependency-focus guidance arrives; starts dependency query turn. | Dependency-focus guidance arrives; wakes the waiting actor, which starts dependency query turn. |
+| 12 | `AL12` is collected without a notification. | Script has not requested it. | Query executes, returns `AL12`, and E3 enters history. Review starts with E3 and blocks the report turn. | Query executes, returns `AL12`, and E3 enters history. Review starts, but actor also starts its Report turn. |
 | 13 | No new external evidence | Continues scripted local investigation. | Report is still blocked by review. | Report completes; episode ends and pending review is cancelled. |
 | 15 | No new external evidence | No supported report from this fixture. | NoChange review completes; actor starts Report turn. | Episode already ended. |
 | 16 | E4 delivered to active episodes; epoch unchanged | Can respond, without receiving an evaluator hint. | Report completes before a new review can start; episode ends. | Episode already ended. |
 | 24 | Exclusive horizon reached | Unfinished fixture run terminates as timeout. | Episode already ended. | Episode already ended. |
 
-The ticks 13 and 16 are expected results of these scripted scheduling rules,
-not predictions for AI models. Do not use this example to claim a measured
-hybrid speedup. A separate acceptance fixture must let the actor independently
-seek E3 and succeed without guidance.
+The tick-13 asynchronous and tick-16 blocking reports have been re-derived for
+this straightforward scripted actor: guidance starts the dependency Query turn
+at tick 11, the Query dispatches and returns `AL12` at tick 12, and the existing
+review/actor phase ordering then yields those report completions. These times
+are not predictions for AI models and do not apply to the ambiguous or recovery
+variants. Do not use this example to claim a measured hybrid speedup. A separate
+acceptance fixture must let the actor independently seek E3 and succeed without
+guidance.
 
 ## 8. Failure and termination behavior
 
 | Condition | Behavior |
 | --- | --- |
 | Invalid actor output or unknown/forbidden action | Record the rejected decision with reason; no operational effect. Consume its turn and any diagnostic-attempt budget, then allow reconsideration while budgets remain. |
-| Diagnostic evidence not yet available | Return an explicit observation of unavailability. Do not invent values, retry silently, or reveal future evidence. |
+| Successful diagnostic projection has no matching records | Return the currently observable typed result, including a legitimate empty collection. Do not invent values, retry silently, or reveal future evidence. |
+| Authored telemetry/access failure | Return the explicit unavailable observation permitted by the existing contract and record the failure condition. Do not disguise it as an empty successful result or use it for normal pre-signal retrieval. |
 | Current actor/model dependency fails | Record an infrastructure failure and terminate that run; do not substitute a different actor model or a success-shaped report. Cancellation/failure of an already-obsolete call is recorded against that call, not allowed to terminate or mutate the replacement turn. |
 | Supervisor returns invalid guidance | Record rejection, close the review, release blocking wait, and retain only any older guidance that is still valid. |
 | Supervisor errors or times out | Record the failure, close the review, and release blocking wait. Continue only under unchanged permitted diagnostic controls; mark the run as supervision-degraded. Never treat failure as a NoChange opinion. |
@@ -473,11 +485,11 @@ version and date. Do not invent cost savings from the scripted fixture.
 
 | ID | Setup | Expected observable result |
 | --- | --- | --- |
-| A01 | Primary scripted fixture | Asynchronous report at 13, blocking report at 16, actor-only timeout at 24 under section 7's authored behavior. No operational writes. |
+| A01 | Straightforward primary scripted fixture | Asynchronous report at 13, blocking report at 16, actor-only timeout at 24 under section 7's re-derived authored behavior. No operational writes. These report times do not apply to the ambiguous or recovery variants. |
 | A02 | Same events, competent scripted actor independently follows E2 | Actor-only can obtain E3 and report correctly. No hidden supervisor requirement in the evaluator. |
-| A03 | Query executes at 11, then another at 12 | First returns explicit unavailability; second may return E3. Neither earlier actor nor supervisor input contains E3. |
+| A03 | `query_logs(authorization-service)` dispatches at 11, then a distinct query dispatches at 12 | The first returns successful `AL0` with an empty log collection and no evidence IDs. The second returns `AL12` with E3's stable, ordinal-sorted evidence IDs. Both attempts consume existing budgets. Neither earlier input contains E3, and tick 12 has no availability notification. |
 | A04 | Review starts at 8; new evidence is observed at 9 | Review input remains its tick-8 snapshot. Referencing the tick-9 observation in its output is rejected. |
-| A05 | Recovery notification at 10 increments applicability epoch; tick-8 guidance arrives at 11 | Reject guidance for epoch mismatch. Actor can reconsider using recovery evidence; later diagnostics reflect recovery, not contradictory active-fault fixtures. |
+| A05 | Recovery notification at 10 increments applicability epoch; tick-8 guidance arrives at 11 | Reject guidance for epoch mismatch. `query_metrics(authorization-service)` returns `AM10R` from tick 10; at tick 12, `AM12R` and `AL12R` retain tick-10/current records alongside timestamped pre-recovery history under sampled epoch 1. Do not attribute recovery to either agent. |
 | A06 | In-scope, fresh, but wrong supervisory advice | The harness may accept it; evaluator records whether it worsens later behavior. No oracle silently removes it. |
 | A07 | Advice proposes a production write or an unknown target | Reject it as outside the first experiment's catalogue. No write-capable tool is invoked. |
 | A08 | Review starts at 8, completes at 13 | Skip checkpoint 12 because review is still active. No queued catch-up review; next eligible checkpoint is 16. |
@@ -492,6 +504,8 @@ version and date. Do not invent cost savings from the scripted fixture.
 | A17 | NoChange, duplicate, expired, or invalid guidance arrives | Record the review outcome without cancelling a useful actor turn. New evidence can make a same-target recommendation a distinct actionable interrupt. |
 | A18 | Repeated distinct actionable guidance arrives before replacement turns finish | Record interruptions, discarded work, and lack of progress; enforce budgets without silently disabling interrupts to make the result favorable. |
 | A19 | Framework review invocation is deliberately delayed | Actor processes an external event and completes a diagnostic before review completion; then the result can interrupt a subsequent pending actor decision. Record any framework serialization limitation. |
+| A20 | The same unchanged diagnostic content is retrieved twice | The observations have distinct diagnostic IDs, observation IDs, observed ticks, and history revisions, but retain identical neutral ordinal-sorted evidence IDs and content. |
+| A21 | Ambiguous development variant | E1 contains the approved `payments-api-03` CPU symptom and follow-ups; E2 is not pushed, but `PL8` is queryable from tick 8. No evaluator-only causal explanation or hidden variant label enters component input. |
 
 These are mechanism acceptance examples. They do not replace empirical
 comparisons on independently designed held-out scenarios.
@@ -967,15 +981,21 @@ The complete trigger, disposition, event and terminal-record field definitions
 are in the approved consolidated contract baseline. These lifecycle rules and
 atomic invalidation are approved for T1 contract-level implementation.
 
-## 13. Proposed amendment: realistic diagnostic retrieval
+## 13. Approved amendment: realistic diagnostic retrieval
 
 | Field | Value |
 | --- | --- |
 | Amendment ID | ER-1 |
 | Date | 2026-09-18 |
-| Status | Proposed evidence mapping for review; exact fixture payloads remain open |
+| Status | Approved documentation baseline; T2 implementation not authorized |
 | Scope | Development diagnostic retrieval, notification delivery, and a recovery variation |
 | Implementation | No code, serialized contracts, scenario data, or tests changed |
+
+The authoritative [ER-1 fixture specification](ER1_FIXTURE_PROPOSAL.md)
+supplies the approved synthetic payloads, neutral evidence IDs,
+timing/provenance mappings, variant differences, recovery responses, and DTO
+compatibility. Approval establishes the documentation baseline only and does
+not authorize T2.
 
 ### 13.1 Purpose and baseline interaction
 
@@ -984,11 +1004,10 @@ fixture-authored signal that relevant evidence will appear later. Absence of a
 particular record is not an access failure or a promise of future evidence.
 The model receives measurements and provenance, not evaluator interpretations.
 
-This changes the pre-signal behavior specified in section 4 and acceptance
-example A03. It is a proposed amendment, not an editorial reinterpretation.
-The straightforward development case remains; an ambiguous-investigation variant
-is proposed separately rather than replacing it with a case chosen to favor
-supervision. Exact evidence equivalence and outcome rubrics remain deferred.
+This amendment replaces the superseded pre-signal behavior in section 4 and
+A03. The straightforward development case remains, with a separately specified
+ambiguous-investigation variant. Exact evidence equivalence and outcome rubrics
+remain deferred.
 
 ### 13.2 Query-to-evidence table
 
@@ -999,22 +1018,22 @@ in-flight input snapshot. The seven operation/target pairs remain unchanged.
 | Operation | Target | Initially observable | Later observable |
 | --- | --- | --- | --- |
 | `get_incident` | `INC-1042` | From tick 0: incident identity, affected service, opening time, and current status. | Status changes and their timestamps; no inferred cause or future event schedule. |
-| `get_service_health` | `payments-api` | Current instance readiness and available restart history. | Updated readiness and restart records, as defined by the selected variant. |
+| `get_service_health` | `payments-api` | Current instance readiness and available restart history. | Updated readiness and restart records, as defined by the fixture. |
 | `query_metrics` | `payments-api` | Available error-rate, latency, CPU, and memory samples, including pre-incident comparison windows. | Additional timestamped samples as they become observable, without an explanation of which measurements matter. |
 | `query_logs` | `payments-api` | Existing application records for the defined query window; no timeout records before they become observable. | From tick 8: request-linked authorization timeout records. From tick 16: cache-warning records and comparable earlier-window records, with their time windows distinguished. |
 | `get_service_health` | `authorization-service` | Current readiness and available health history. | Updated health observations, without interpreting readiness as evidence of normal request latency. |
-| `query_metrics` | `authorization-service` | Currently collected dependency latency and request-count samples. | From tick 12: delayed samples showing elevated latency, but no queue-wait decomposition in this response. |
+| `query_metrics` | `authorization-service` | Currently collected dependency latency and request-count samples. In the recovery variation, the tick-10 sample is returned from tick 10. | From tick 12: delayed pre-recovery samples are added while the tick-10 sample is retained; metrics contain no queue-wait decomposition. |
 | `query_logs` | `authorization-service` | Currently collected request-processing records; no future queue-delay records. | From tick 12: E3, linked arrival, processing-start, and processing-end records exposing the queue delay. |
 
-The proposed canonical retrieval route for E3 is
+The canonical retrieval route for E3 is
 `query_logs(authorization-service)`. General dependency latency is not assigned
 the same evidence identity as the request-linked queue-delay records.
 This route does not settle all possible equivalent evidence or scoring rules.
 
-Baseline query windows, initial records, detailed numerical values, and fixed
-operation/target response projections still require an explicit fixture table.
-The implementer must not fill these gaps with convenient values. In particular,
-the existing shared E0-E4 narratives are not complete diagnostic payloads.
+The fixture specification fixes query windows, initial and subsequent records,
+numerical values, collection timing, stable evidence identities, and exact
+operation/target projections. The E0-E4 aliases remain narrative labels, not
+complete diagnostic payloads or model-visible evidence IDs.
 
 ### 13.3 Successful empty results and actual unavailability
 
@@ -1023,12 +1042,11 @@ if the fixture establishes that no matching records have been collected.
 Do not fabricate normal measurements or use empty success to conceal an
 access/telemetry failure.
 
-The existing `unavailable` branch is reserved here for an explicitly modeled
+The existing `unavailable` branch is reserved for an explicitly modeled
 diagnostic-access or telemetry-availability condition, not the normal absence
-of the incident's revealing signal. The current wire vocabulary only supports
-`reason: "not-yet-available"`; this amendment does not add new failure codes or
-authorize labeling an unrelated failure with that reason. Broader failure
-representations would require a separate contract decision.
+of a matching record. The current wire vocabulary still supports only
+`reason: "not-yet-available"` for that explicit branch; ER-1 adds no failure
+codes and does not authorize labeling an unrelated failure with that reason.
 
 Available telemetry freshness or completeness information can legitimately aid
 reasoning. The requirement is no privileged hints from the scenario author,
@@ -1040,7 +1058,7 @@ Do not disclose the next scheduled collection time or future fixture contents.
 | Tick | Straightforward variant | Ambiguous-investigation variant |
 | --- | --- | --- |
 | 0 | Push the incident alert: errors and latency rise. | Same initial alert. |
-| 4 | Push the existing local health/resource observations as measurements. | Push a timestamped local symptom, such as elevated resource use on one instance, with internally consistent supporting and follow-up records. The exact symptom is not selected yet. |
+| 4 | Push the approved three-ready-instance and aggregate resource measurements. | Push the approved `payments-api-03` CPU/memory symptom; CPU is 87% at tick 4 and has the specified tick-8/12/16 follow-ups. |
 | 8 | Push the timeout summary; underlying records are also queryable. | Timeout records become retrievable through `query_logs(payments-api)`; no timeout-summary notification. |
 | 12 | Dependency metrics and E3 logs become observable on request. No notification announces this availability. | Same retrieval boundary, also without a notification. |
 | 16 | Deliver a cache-warning digest with records and comparable historical counts. | Same presentation rule; no description of the signal as a distraction or explanation of its relevance. |
@@ -1051,10 +1069,10 @@ This pair of variants explores different conditions; it does not isolate the
 causal effect of ambiguity versus notification delivery. Do not add new
 experimental arms or claim a controlled ablation on that basis.
 
-The local symptom must have a coherent relationship to the authored incident:
-cause, consequence, or coincidence with observable context. Do not insert a
-contradictory red herring solely to force actor failure. The actor may diagnose
-either case effectively without supervision.
+The ambiguous symptom's evaluator-only explanation is fixed in the fixture:
+the local CPU rise is a consequence of timeout handling and retry/log work,
+not a model-visible causal label. The actor may diagnose either case effectively
+without supervision.
 
 ### 13.5 Evidence presentation and provenance
 
@@ -1075,46 +1093,43 @@ sampling, and delivery to observed history. Tick 12 is an observability boundary
 not necessarily the onset of the underlying queue delay. Historical records
 retain their original event times even when delivered later.
 
-Evidence IDs identify the actual returned content; a partial health response
-must not claim to contain every part of the E1 narrative. Repeated retrieval
-creates a new observation record but is not independent corroboration. Define
-stable evidence identities for repeated or partial responses before building
-the fixture; new diagnostic evidence IDs must not reveal hidden case labels.
+Evidence IDs identify the actual returned content and are neutral,
+ordinal-sorted sets. Repeated retrieval creates a new observation record but
+retains unchanged evidence identity and is not independent corroboration.
+Metric and log DTO arrays remain chronological.
 
-The current contracts have source timestamps and availability/delivery fields,
-but do not automatically define every query-window or collection metadata field
-needed above. The preparation step must map these requirements onto the approved
-DTOs and observation envelopes. Any missing representation must be raised as
-an explicit contract question, not silently added to a closed schema.
-Actor-selected query-window arguments are not introduced: the current catalogue
-still binds allowed targets with empty component argument objects.
+Under approved Q-ER1-1, fixed query windows and per-record collection times are
+harness-owned fixture metadata under the existing contracts. Both components
+receive the projection semantics and synthetic source-time convention; returned
+records retain actual source timestamps; aggregate `availableTick` is not every
+record's collection time; and future schedules, hidden variant labels, and
+evaluator interpretations remain outside component input. Actor-selected query
+arguments remain `{}` and no closed DTO fields are added.
 
-### 13.6 Proposed external-recovery variation
+### 13.6 External-recovery variation
 
-Propose externally caused recovery at tick 10, after E2 becomes observable and
-before the first possible E3 retrieval. The recovery tick and precise recovery
-payloads require review; they do not revise every episode's schedule.
+The recovery variation has externally caused recovery at tick 10, after E2
+becomes observable and before the first possible E3 retrieval. It does not
+revise every episode's schedule.
 
 - Deliver timestamped recovery observations and advance the applicability epoch.
   Do not attribute external recovery to an actor or supervisor.
 - Record observed recovery separately from administrative incident closure.
-- Subsequent diagnostics reflect the declared observation windows and collection
-  lag. Newly collected current measurements must not retain stale active-fault
-  values merely to preserve the original scenario.
-- E3 may become observable at tick 12 as evidence about pre-recovery requests.
+- Authorization metrics return `AM10R` from tick 10. At tick 12, `AM12R` adds
+  delayed pre-recovery samples while retaining the tick-10 sample.
+- E3 becomes observable at tick 12 as evidence about pre-recovery requests.
   Its timestamps must not present those requests as ongoing queue delay.
 - Retain old input snapshots and historical records unchanged. Apply existing
   epoch rules to pending guidance; recovery does not erase the earlier incident.
 - The cache digest may still arrive at tick 16 with its historical comparison
   windows; it must not imply a new causal relationship.
 
-Before implementation, specify how a diagnostic containing historical
-pre-recovery records is represented alongside the observation envelope's epoch.
-Distinguish a current retrieval of old records from delayed delivery of an
-already-sampled diagnostic; do not relabel old snapshots or infer current
-activity from an old event. No epoch/dispatch rule changes are implicit here.
+Historical records retrieved after recovery keep their source timestamps while
+the observation envelope carries the epoch sampled at dispatch. A result
+sampled before recovery and delivered later retains its old content and epoch;
+a current post-recovery retrieval is not delayed delivery of that old sample.
 
-### 13.7 Query cost and proposed acceptance adjustments
+### 13.7 Query cost and acceptance
 
 Retain the existing 12-diagnostic-attempt budget, one-tick actor turns, zero
 additional diagnostic execution ticks in the scripted default, and exclusive
@@ -1123,8 +1138,7 @@ consume the existing attempt and turn budgets. No new polling penalty or
 automatic early-stop policy is introduced. Record repeated retrieval and assess
 its usefulness in context.
 
-After approval and payload completion, the affected acceptance examples should
-demonstrate:
+Acceptance examples A01-A05 and A20-A21 demonstrate:
 
 - A query before tick 12 returns ordinary currently observable records, not E3
   or a scheduled-unavailability hint. At or after tick 12, the prescribed
@@ -1139,22 +1153,17 @@ demonstrate:
   fault evidence, original timestamps, and frozen in-flight snapshots.
 - Polling consumes existing budgets; a competent actor can succeed without help.
 
-These are proposed adjustments, not implemented tests or new success thresholds.
-The original A03 behavior and any worked trace depending on it must be explicitly
-reconciled during approval. Do not claim the original authored report times
-remain unchanged without checking the revised fixture.
+These are mechanism requirements, not implemented tests or new success
+thresholds. Section 7 re-derives the straightforward report times; those times
+do not apply to the ambiguous or recovery variants.
 
-### 13.8 Remaining preparation before the affected T2 work
+### 13.8 Change history and remaining boundary
 
-1. Fix exact initial responses and subsequent payloads for all seven query pairs,
-   including successful empty windows and sample/collection timing.
-2. Choose the ambiguous local symptom and its consistent diagnostic records.
-3. Fix the recovery payloads, status transitions, and historical-record epoch mapping.
-4. Specify stable evidence identities and which records each diagnostic returns.
-5. Confirm compatibility with existing closed DTOs; identify any required
-   representation amendment separately.
-6. Review ER-1, reconcile section 4/A03 and dependent examples, and record the
-   approved mapping in the handoff before authorizing its implementation.
+ER-1 was proposed on 2026-09-18 to replace scheduled pre-signal unavailability
+with realistic retrieval. The exact fixture, ambiguous CPU symptom, tick-10
+recovery treatment, neutral evidence IDs, timing distinctions, and Q-ER1-1
+existing-contract approach were approved later that day. Sections 4, 7, 8, 10,
+and the implementation handoff were reconciled to this baseline.
 
 Evidence equivalence beyond the stated E3 retrieval route, complete case rubrics,
 scoring weights, and held-out design remain deferred. This amendment does not

@@ -13,6 +13,14 @@ v1.0 plus WM-1. On 2026-09-16, the user approved
 baseline, including C4/M6, C7/M7, M3, C8/M8 and the listed engineering limits.
 Previously accepted decisions remain accepted; C6 remains deferred.
 
+On 2026-09-18, the user approved ER-1 and
+[its synthetic fixture specification](../ER1_FIXTURE_PROPOSAL.md): successful
+diagnostics return current records or legitimate empty projections; tick-12
+dependency evidence availability remains silent; the ambiguous CPU-symptom and
+tick-10 recovery variants are fixed; and Q-ER1-1 keeps query-window and
+collection metadata harness-owned under the existing contracts with its stated
+safeguards. This is a documentation baseline only. T2 remains unauthorized.
+
 Use [COPILOT_HANDOFF.md](COPILOT_HANDOFF.md) to scope later authorized
 implementation tasks. Start with its framework feasibility gate; do not execute
 all tasks merely because the handoff exists or replace scripted components
@@ -99,6 +107,14 @@ with sections 1-11. `T1-WM-1-candidate-3` / `1.0-candidate.3` is approved for
 the first scripted T1 build with its candidate literals preserved. T1 contracts,
 serialization, validation, research events and focused fixtures are authorized.
 T2-T5, live calls, deployment and full experiment execution remain unauthorized.
+
+**Evidence-retrieval consolidation and approval, 2026-09-18:**
+[ER-1](../EXPERIMENT_SPEC.md#13-approved-amendment-realistic-diagnostic-retrieval)
+and the [approved fixture](../ER1_FIXTURE_PROPOSAL.md) replace normal scheduled
+pre-signal unavailability with current observable records or legitimate empty
+results. Explicit unavailability remains available only for authored
+telemetry/access failures. The seven-pair catalogue, budgets, silent tick-12
+availability, and deferred C6/evaluation decisions are unchanged.
 
 ## Working-memory amendment history
 
