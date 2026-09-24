@@ -165,3 +165,22 @@ The status table above records the user's final T1 contract approval. Accepted
 choices are requirements of the consolidated design. This approval authorizes
 T1 only and is not permission to implement the T2 scheduler, T3 coordinator,
 T4-T5, live models, deployment, or a full experiment runner.
+
+## C6 evaluation rubric freeze (2026-09-24)
+
+The C6 case-classification rubric for the ER-1 development, ambiguous, and
+recovery cases was worked through with the research owner (judgment calls §7-A
+through §7-E) and **frozen as `C6-rubric-1`** in
+[C6_EVALUATION_PROPOSAL.md](../C6_EVALUATION_PROPOSAL.md). It is authoritative and
+not retuned after comparative or model-driven runs; §7-C's strict citation policy
+is the one pre-registered robustness check.
+
+This resolves only the case-classification rubric named in the earlier
+"Deferred: C6 evidence equivalence and case rubrics" note. Still deferred: broader
+evidence equivalence beyond the E3 retrieval route, scoring weights, aggregate
+weighting, held-out scenario design, and live-model timing/evaluation methodology.
+
+Authorized next: implement the deterministic evaluator and its focused tests over
+the existing smoke-run artifacts. It classifies reports and records neutral facts
+only; it makes no comparative claim and does not add scoring weights. The
+competent-actor baseline and any comparative run remain separately gated.

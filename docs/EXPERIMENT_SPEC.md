@@ -482,6 +482,13 @@ Numerical response deadlines, non-inferiority margins, worthwhile-effect
 thresholds, sample size, repeated-run seeds, and aggregate weighting remain
 research-protocol decisions, not implementation choices.
 
+For the ER-1 development, ambiguous, and recovery cases, the acceptable
+hypotheses, evidence and citation requirements, next-step acceptability,
+uncertainty consistency, and recorded neutral facts are now fixed in the frozen
+rubric `C6-rubric-1` ([C6_EVALUATION_PROPOSAL.md](C6_EVALUATION_PROPOSAL.md)).
+Held-out cases, broader evidence equivalence, scoring weights, aggregate
+weighting, and the statistical decisions above remain deferred.
+
 For live calls, record reported usage including cancelled work where available.
 Missing usage is unknown, not zero. A token price table needs provider/model
 version and date. Do not invent cost savings from the scripted fixture.
