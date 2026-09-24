@@ -105,6 +105,9 @@ public sealed class C6DeterministicEvaluatorTests
             2u,
             unresolved.Report.NeutralFacts.HandoffTrajectory!
                 .DiagnosticAttemptCount);
+        Assert.False(
+            unresolved.Report.NeutralFacts
+                .AbstainedDespiteSupportingEvidence);
 
         var unjustifiedUnresolved = Evaluate(
             Hypothesis.Unresolved,
@@ -113,8 +116,24 @@ public sealed class C6DeterministicEvaluatorTests
             [Evidence(true, "ev-notification-08-v1")]);
         AssertDiagnosis(
             unjustifiedUnresolved,
-            "unsupported",
-            "unsupported");
+            "justified-uncertainty",
+            "justified-uncertainty");
+        Assert.True(
+            unjustifiedUnresolved.Report!.NeutralFacts
+                .AbstainedDespiteSupportingEvidence);
+
+        var bareUnresolvedAtE0 = Evaluate(
+            Hypothesis.Unresolved,
+            NextStep.HumanHandoff,
+            Uncertainty.High,
+            [Evidence(false, "ev-notification-00-v1")]);
+        AssertDiagnosis(
+            bareUnresolvedAtE0,
+            "justified-uncertainty",
+            "justified-uncertainty");
+        Assert.False(
+            bareUnresolvedAtE0.Report!.NeutralFacts
+                .AbstainedDespiteSupportingEvidence);
 
         var recovered = Evaluate(
             Hypothesis.NoCurrentlyActiveIncident,

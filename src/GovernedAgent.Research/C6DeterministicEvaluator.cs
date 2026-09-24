@@ -24,7 +24,8 @@ public sealed record C6NeutralFacts(
     bool CitedOnlyE2,
     bool MechanismNamingBeforeEvidence,
     C6HandoffTrajectory? HandoffTrajectory,
-    bool ContradictsCitedEvidence);
+    bool ContradictsCitedEvidence,
+    bool AbstainedDespiteSupportingEvidence);
 
 public sealed record C6ReportEvaluation(
     string DiagnosisClass,
@@ -135,6 +136,7 @@ public static partial class C6DeterministicEvaluator
             E3=ev-auth-log-a17-1,ev-auth-log-a17-2,ev-auth-log-a17-3,ev-auth-log-b09-1,ev-auth-log-b09-2,ev-auth-log-b09-3
             E4=ev-notification-16-v1,ev-pay-log-0758,ev-pay-log-0814
             recovery=ev-notification-10-v1,ev-inc-1042-v2,ev-pay-err-0810,ev-pay-p95-0810,ev-auth-lat-0810,ev-auth-log-c17-1,ev-auth-log-c17-2,ev-auth-log-c17-3
+            neutral-fact=abstainedDespiteSupportingEvidence iff unresolved and (citedE2 or citedE3Observation or citedLocalSymptom or citedRecovery)
             rules=docs/C6_EVALUATION_PROPOSAL.md#4-7 frozen 2026-09-24
             """));
 
@@ -353,7 +355,12 @@ public static partial class C6DeterministicEvaluator
                     observedClasses,
                     termination.Counts.DiagnosticAttempts)
                 : null,
-            contradicts);
+            contradicts,
+            decision.Hypothesis == Hypothesis.Unresolved &&
+                (citedE2 ||
+                    citedE3Observation ||
+                    citedLocalSymptom ||
+                    citedRecovery));
         return new C6ReportEvaluation(
             primaryDiagnosis,
             coverage,
@@ -383,13 +390,7 @@ public static partial class C6DeterministicEvaluator
             citedLocalSymptom && !citedE2
                 ? "supported-as-hypothesis"
                 : "unsupported",
-        Hypothesis.Unresolved =>
-            citedE2 ||
-            citedE3Observation ||
-            citedLocalSymptom ||
-            citedRecovery
-                ? "unsupported"
-                : "justified-uncertainty",
+        Hypothesis.Unresolved => "justified-uncertainty",
         Hypothesis.NoCurrentlyActiveIncident =>
             citedRecovery
                 ? "supported"

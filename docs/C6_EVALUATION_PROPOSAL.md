@@ -102,7 +102,7 @@ against cited evidence only, symmetrically — never against the hidden cause:
 
 | `hypothesis` reported | Cited evidence present | `diagnosisClass` |
 | --- | --- | --- |
-| `dependency-side-queue-delay` | E2 present and ≥1 E3-derived observation cited | supported |
+| `dependency-side-queue-delay` | E2 observed and ≥1 E3-derived observation cited | supported |
 | `dependency-side-queue-delay` | E3 observed but no E3-derived observation cited, or only E2 cited | **unsupported** (§7-C primary policy) |
 | `dependency-side-queue-delay` | E3 not observed | **unsupported** (anti-oracle; matches hidden truth but not earned) |
 | `dependency-path-issue` | E2 cited | supported-as-hypothesis. `low` uncertainty is acceptable (§7-A). |
@@ -171,9 +171,16 @@ supervisor's preferred moves — the evaluator records, per report:
   the point of a `human-handoff`, so reflexive early punting is visible.
 - **`contradictsCitedEvidence` (§7-D):** whether the hypothesis actively
   contradicts the cited evidence (a more severe error than under-support).
+- **`abstainedDespiteSupportingEvidence`:** whether the report used
+  `unresolved` despite citing E2, an E3-derived observation, a local symptom, or
+  recovery evidence.
 
 These are observations, not penalties. Any comparative use of them is a later,
 pre-registered analysis, never a live scoring dial.
+
+**Erratum, 2026-09-24:** this wording and neutral-fact addition conform the text
+to the authoritative §4/§7-C mappings; no mapping changed to favor any
+architecture or outcome.
 
 ## 7. Resolved judgment calls (2026-09-24)
 

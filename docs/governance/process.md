@@ -189,3 +189,10 @@ competent-actor baseline and any comparative run remain separately gated.
 tests are implemented against `C6-rubric-1` and await independent review. The
 authorization remains stopped before the competent-actor baseline, comparative
 execution, remaining T4/T5 acceptance work, live models, or deployment.
+
+**C6 conformance erratum, 2026-09-24:** owner ruling confirmed that `unresolved`
+always maps to `justified-uncertainty`; supporting citations are recorded only
+as the neutral fact `abstainedDespiteSupportingEvidence`. The rubric's queue
+delay wording now says E2 is observed, matching authoritative §7-C. This is a
+conformance correction, not a rubric retune, and changes no mapping to favor an
+architecture or outcome.
