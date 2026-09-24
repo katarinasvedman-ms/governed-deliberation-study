@@ -2,7 +2,7 @@
 
 | Field | Proposed value |
 | --- | --- |
-| Status | **Frozen 2026-09-24 as `C6-rubric-1`.** Authoritative for the ER-1 development, ambiguous, and recovery cases; not retuned after comparative/model runs; not yet implemented. |
+| Status | **Frozen 2026-09-24 as `C6-rubric-1`.** Authoritative for the ER-1 development, ambiguous, and recovery cases; not retuned after comparative/model runs. Deterministic implementation added 2026-09-24 and awaiting independent review. |
 | Rubric version | `C6-rubric-1` |
 | Date | 2026-09-24 |
 | Fills | The deferred C6 gap in [EXPERIMENT_SPEC.md §9](EXPERIMENT_SPEC.md#9-outcome-and-measurement-contract) and the case-rubric items in the handoff |

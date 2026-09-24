@@ -2,8 +2,8 @@
 
 | Field | Value |
 | --- | --- |
-| Status | T3 and the narrow scripted smoke checkpoint are published; remaining T4/T5 work requires authorization |
-| Date | 2026-09-18 |
+| Status | C6 deterministic evaluator implemented over the published smoke checkpoint; awaiting independent review; remaining T4/T5 work requires authorization |
+| Date | 2026-09-24 |
 | Design baseline | [EXPERIMENT_SPEC.md v1.0](../EXPERIMENT_SPEC.md) |
 | Starting repository revision | `3105d190d8b5739492efd0fa1f3c3745209c3753` |
 | First-build scope | Credential-free, scripted mechanism experiment; diagnosis and direction only |
@@ -269,8 +269,22 @@ explicitly decided.
 defines a six-episode, three-architecture mechanism smoke test with actual
 candidate-3 records, a readable timeline, and a mechanical repeated-run check.
 Its implementation was independently reviewed, committed, and published on
-2026-09-18. This completed checkpoint does not authorize the remaining T4/T5
-work and does not define the deferred C6 evaluator rubric.
+2026-09-18.
+
+**C6 evaluator status (2026-09-24):** `C6-rubric-1` is frozen and the
+deterministic evaluator is implemented for independent review. It consumes only
+the persisted observations, actions, reviews, memory updates, beliefs,
+termination, and run closure; re-validates contract roots; and writes
+`c6-evaluation.json` beside each episode. The existing six-episode smoke test
+exercises it with:
+
+```powershell
+dotnet test .\tests\GovernedAgent.IntegrationTests\GovernedAgent.IntegrationTests.csproj -c Release --filter "FullyQualifiedName~C6DeterministicEvaluatorTests|FullyQualifiedName~Er1StraightforwardSmokeRunTests"
+```
+
+This implementation does not authorize the competent-actor baseline, remaining
+T4/T5 acceptance work, comparative claims, scoring weights, live models, or
+deployment.
 
 **Build:** one documented local command or entry point that runs the scripted
 case across the three architectures. Use the same actor configuration, events,

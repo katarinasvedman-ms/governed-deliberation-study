@@ -321,6 +321,8 @@ public sealed class Er1StraightforwardSmokeRunTests
             termination,
             closure,
             dispatcher.AuditRecords);
+        var evaluation = await C6DeterministicEvaluator.EvaluateAndWriteAsync(
+            episodeDirectory);
         var canonical = CreateCanonicalRecords(
             manifest,
             coordinator,
@@ -336,6 +338,7 @@ public sealed class Er1StraightforwardSmokeRunTests
             dispatcher.DispatchCount,
             dispatcher.AuditRecords.Count,
             timelinePath,
+            evaluation,
             canonical);
     }
 
@@ -699,14 +702,17 @@ public sealed class Er1StraightforwardSmokeRunTests
             case SupervisionArchitecture.ActorOnly:
                 Assert.Equal("timeout", episode.Termination.Kind);
                 Assert.Equal(24u, episode.Termination.Tick);
+                Assert.Null(episode.Evaluation.Report);
                 break;
             case SupervisionArchitecture.BlockingSupervision:
                 Assert.Equal("report", episode.Termination.Kind);
                 Assert.Equal(16u, episode.Termination.Tick);
+                AssertSmokeEvaluation(episode.Evaluation);
                 break;
             case SupervisionArchitecture.AsynchronousSupervision:
                 Assert.Equal("report", episode.Termination.Kind);
                 Assert.Equal(13u, episode.Termination.Tick);
+                AssertSmokeEvaluation(episode.Evaluation);
                 Assert.Contains(
                     episode.Events,
                     item => item.EventType == "actor.invalidated");
@@ -717,6 +723,20 @@ public sealed class Er1StraightforwardSmokeRunTests
             default:
                 throw new InvalidOperationException("Unknown architecture.");
         }
+    }
+
+    private static void AssertSmokeEvaluation(C6EpisodeEvaluation evaluation)
+    {
+        var report = Assert.IsType<C6ReportEvaluation>(evaluation.Report);
+        Assert.Equal("supported", report.DiagnosisClass);
+        Assert.Equal(
+            "supported",
+            report.StrictCitationPolicyDiagnosisClass);
+        Assert.Equal("acceptable", report.NextStepClass);
+        Assert.True(report.NeutralFacts.ObservedE3);
+        Assert.True(report.NeutralFacts.CitedE3DerivedObservation);
+        Assert.False(report.NeutralFacts.CitedOnlyE2);
+        Assert.False(report.NeutralFacts.MechanismNamingBeforeEvidence);
     }
 
     private static RunManifest CreateManifest(
@@ -1303,5 +1323,6 @@ public sealed class Er1StraightforwardSmokeRunTests
         int DispatchCount,
         int AuditRecordCount,
         string TimelinePath,
+        C6EpisodeEvaluation Evaluation,
         JsonNode CanonicalRecords);
 }

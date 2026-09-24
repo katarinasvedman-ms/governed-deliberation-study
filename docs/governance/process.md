@@ -184,3 +184,8 @@ Authorized next: implement the deterministic evaluator and its focused tests ove
 the existing smoke-run artifacts. It classifies reports and records neutral facts
 only; it makes no comparative claim and does not add scoring weights. The
 competent-actor baseline and any comparative run remain separately gated.
+
+**Implementation status, 2026-09-24:** the deterministic evaluator and focused
+tests are implemented against `C6-rubric-1` and await independent review. The
+authorization remains stopped before the competent-actor baseline, comparative
+execution, remaining T4/T5 acceptance work, live models, or deployment.

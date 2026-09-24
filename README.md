@@ -56,8 +56,9 @@ The live-model timing methodology is not yet fixed.
 Observations are immutable; beliefs remain provisional. Direction expires
 separately from belief validity, and already-dispatched operations may finish.
 The scripted runtime mechanism depicted here is implemented and exercised
-end to end by the bounded scripted smoke test. The independent evaluator and
-live-model execution are not implemented.
+end to end by the bounded scripted smoke test. The deterministic C6 evaluator
+is implemented for persisted ER-1 episodes and awaits independent review.
+Live-model execution is not implemented.
 
 [Editable Excalidraw](docs/architecture/actor-supervisor-shared-memory.excalidraw)
 | [SVG](docs/architecture/actor-supervisor-shared-memory.svg)
@@ -75,10 +76,14 @@ evolving-evidence scheduler, and one coordinator for actor-only, blocking, and
 asynchronous supervision. A narrow scripted smoke checkpoint runs the
 straightforward evidence fixture twice under each architecture, persists
 validated records and timelines, and checks repeated-run reproducibility.
+The deterministic `C6-rubric-1` evaluator re-validates those persisted episode
+records, classifies submitted reports, records the pre-registered strict
+citation robustness result, and writes `c6-evaluation.json` beside each episode.
 
-This establishes scripted mechanism behavior only. Evidence-support and
-next-step evaluation rubrics, a competent-actor baseline case, the independent
-evaluator, the acceptance package, and live-model methodology remain deferred.
+This establishes scripted mechanism behavior and deterministic case
+classification only. Independent review of the evaluator, a competent-actor
+baseline case, the acceptance package, and live-model methodology remain
+deferred.
 **There are no comparative model-performance results yet.**
 
 ## Run the existing work
